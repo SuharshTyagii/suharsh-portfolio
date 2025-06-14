@@ -32,6 +32,9 @@ jobs:
       - name: Generate static site
         run: npm run generate
 
+      - name: Add CNAME
+        run: echo 'suharshh.com' > .output/public/CNAME
+        
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
