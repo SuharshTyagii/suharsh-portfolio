@@ -45,13 +45,9 @@
   <!-- ===== Stack Playground ===== -->
   <section id="stack" class="max-w-5xl mx-auto px-4 mt-24">
     <h3 class="text-2xl font-semibold mb-6">Skills stack</h3>
- <ul class="flex flex-wrap gap-4 ">
-     <SkillBadge
-      v-for="skill in stack"
-       :key="skill.name"
-       :skill="skill"
-     />
-   </ul>
+    <ul class="flex flex-wrap gap-4 ">
+      <SkillBadge v-for="skill in stack" :key="skill.name" :skill="skill" />
+    </ul>
   </section>
 
   <!-- ===== Projects ===== -->
@@ -59,16 +55,8 @@
     <h3 class="text-2xl font-semibold mb-6">Project Lab</h3>
 
     <div class="grid sm:grid-cols-2 gap-8">
-      <!-- card -->
-      <div class="group relative bg-gray-800 p-6 rounded-2xl overflow-hidden">
-        <h4 class="text-lg font-bold">QA Automation Runner</h4>
-        <p class="mt-2 text-gray-400 text-sm">
-          Browser-controlled Play/Pause runner that cut manual QA by 150 %.
-        </p>
-        <a href="#" class="absolute inset-0"></a>
-        <!-- fancy hover -->
-        <div class="absolute -inset-0.5 bg-brand opacity-0 group-hover:opacity-10 blur transition"></div>
-      </div>
+      <ProjectCard v-for="project in projects" :key="project.title" :title="project.title"
+        :description="project.description" :url="project.url" />
 
       <!-- repeat more cards -->
     </div>
@@ -110,7 +98,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import SkillBadge from '~/components/SkillBadge.vue';
-
+import ProjectCard from '~/components/ProjectCard.vue';
 interface Social {
   icon: string;
   url: string;
@@ -118,73 +106,109 @@ interface Social {
 
 export default defineComponent({
   name: "Index",
-  components: { SkillBadge},
+  components: { SkillBadge, ProjectCard },
   data() {
     return {
       texts: ["Secure", "Fast", "Reliable"] as string[],
       currentText: 0 as number,
-         stack: [
-       { name: "NodeJS", description: "JS runtime on Chrome’s V8, for server-side code." },
-       { name: "VueJS", description: "Progressive frontend framework" },
-       { name: "NuxtJS", description: "Meta-framework for SSR & static Vue apps" },
-       { name: "ReactJS", description: "Component-based UI library from Facebook" },
-       { name: "NextJS", description: "React meta-framework with SSR & routing" },
-       { name: "JavaScript", description: "The web’s lingua franca" },
-       { name: "TypeScript", description: "JS with types for better tooling" },
-       { name: "NestJS", description: "Opinionated Node framework for APIs" },
-       { name: "Docker", description: "Containerization platform" },
-       { name: "Kubernetes (EKS)", description: "Orchestrate containers on AWS" },
-       { name: "AWS (EC2, S3, RDS, Lightsail)", description: "Cloud infra & services" },
-       { name: "Jenkins", description: "Automation server for CI/CD" },
-       { name: "Flask", description: "Lightweight Python web framework" },
-       { name: "Django", description: "Batteries-included Python framework" },
-       { name: "GitHub Actions", description: "CI/CD pipelines on GitHub" },
-       { name: "CI/CD pipelines", description: "Automated build/test/deploy" },
-       { name: "MongoDB", description: "NoSQL document database" },
-       { name: "PostgreSQL", description: "Advanced open-source relational DB" },
-       { name: "MySQL", description: "Popular relational database" },
-       { name: "MariaDB", description: "MySQL fork with extra features" },
-       { name: "Azure", description: "Microsoft’s cloud platform" },
-       { name: "Shell scripting", description: "Automate tasks via CLI scripts" },
-       { name: "Apache Kafka", description: "Distributed event streaming" },
-       { name: "SQS", description: "AWS queue service" },
-       { name: "Queues", description: "Message-based async processing" },
-       { name: "NGINX", description: "High-performance web server" },
-       { name: "Apache", description: "Classic web server" },
-       { name: "Microservices", description: "Decoupled service architecture" },
-       { name: "Redis", description: "In-memory data store & cache" },
-       { name: "Helm", description: "K8s package manager" },
-       { name: "Terraform", description: "Infrastructure as code" },
-       { name: "Prometheus  Grafana", description: "Monitoring & dashboards" },
-       { name: "Serverless", description: "FaaS on cloud providers" },
-       { name: "Lambda", description: "AWS’s serverless compute" },
-       { name: "REST APIs", description: "HTTP-based services" },
-       { name: "GraphQL", description: "Flexible query language for APIs" },
-       { name: "Websockets", description: "Full-duplex browser/server comms" },
-       { name: "Socket.io", description: "Realtime JS comms library" },
-       { name: "OAuth2", description: "Authorization framework" },
-       { name: "Elasticsearch", description: "Search & analytics engine" },
-       { name: "Agile/Scrum/Kanban", description: "Iterative project management" },
-       { name: "Data structures & Algorithms", description: "CS fundamentals" },
-       { name: "TailwindCSS", description: "Utility-first CSS framework" },
-       { name: "Pinia/Vuex/Redux Toolkit", description: "State management libs" },
-       { name: "i18n", description: "Internationalization support" },
-       { name: "DigitalOcean", description: "Developer-friendly cloud" },
-       { name: "PlaywrightJS", description: "E2E testing library" },
-       { name: "Jest", description: "JS unit testing framework" },
-       { name: "Cypress", description: "Frontend E2E testing tool" },
-       { name: "OpenAI", description: "AI API provider" },
-       { name: "LLM", description: "Large language models" },
-       { name: "n8n", description: "Workflow automation tool" },
-       { name: "Chrome extensions", description: "Browser extension dev" },
-       { name: "Alexa applications", description: "Voice skill development" }
-     ] as Skill[],
+      stack: [
+        { name: "NodeJS", description: "JS runtime on Chrome’s V8, for server-side code." },
+        { name: "VueJS", description: "Progressive frontend framework" },
+        { name: "NuxtJS", description: "Meta-framework for SSR & static Vue apps" },
+        { name: "ReactJS", description: "Component-based UI library from Facebook" },
+        { name: "NextJS", description: "React meta-framework with SSR & routing" },
+        { name: "JavaScript", description: "The web’s lingua franca" },
+        { name: "TypeScript", description: "JS with types for better tooling" },
+        { name: "NestJS", description: "Opinionated Node framework for APIs" },
+        { name: "Docker", description: "Containerization platform" },
+        { name: "Kubernetes (EKS)", description: "Orchestrate containers on AWS" },
+        { name: "AWS (EC2, S3, RDS, Lightsail)", description: "Cloud infra & services" },
+        { name: "Jenkins", description: "Automation server for CI/CD" },
+        { name: "Flask", description: "Lightweight Python web framework" },
+        { name: "Django", description: "Batteries-included Python framework" },
+        { name: "GitHub Actions", description: "CI/CD pipelines on GitHub" },
+        { name: "CI/CD pipelines", description: "Automated build/test/deploy" },
+        { name: "MongoDB", description: "NoSQL document database" },
+        { name: "PostgreSQL", description: "Advanced open-source relational DB" },
+        { name: "MySQL", description: "Popular relational database" },
+        { name: "MariaDB", description: "MySQL fork with extra features" },
+        { name: "Azure", description: "Microsoft’s cloud platform" },
+        { name: "Shell scripting", description: "Automate tasks via CLI scripts" },
+        { name: "Apache Kafka", description: "Distributed event streaming" },
+        { name: "SQS", description: "AWS queue service" },
+        { name: "Queues", description: "Message-based async processing" },
+        { name: "NGINX", description: "High-performance web server" },
+        { name: "Apache", description: "Classic web server" },
+        { name: "Microservices", description: "Decoupled service architecture" },
+        { name: "Redis", description: "In-memory data store & cache" },
+        { name: "Helm", description: "K8s package manager" },
+        { name: "Terraform", description: "Infrastructure as code" },
+        { name: "Prometheus  Grafana", description: "Monitoring & dashboards" },
+        { name: "Serverless", description: "FaaS on cloud providers" },
+        { name: "Lambda", description: "AWS’s serverless compute" },
+        { name: "REST APIs", description: "HTTP-based services" },
+        { name: "GraphQL", description: "Flexible query language for APIs" },
+        { name: "Websockets", description: "Full-duplex browser/server comms" },
+        { name: "Socket.io", description: "Realtime JS comms library" },
+        { name: "OAuth2", description: "Authorization framework" },
+        { name: "Elasticsearch", description: "Search & analytics engine" },
+        { name: "Agile/Scrum/Kanban", description: "Iterative project management" },
+        { name: "Data structures & Algorithms", description: "CS fundamentals" },
+        { name: "TailwindCSS", description: "Utility-first CSS framework" },
+        { name: "Pinia/Vuex/Redux Toolkit", description: "State management libs" },
+        { name: "i18n", description: "Internationalization support" },
+        { name: "DigitalOcean", description: "Developer-friendly cloud" },
+        { name: "PlaywrightJS", description: "E2E testing library" },
+        { name: "Jest", description: "JS unit testing framework" },
+        { name: "Cypress", description: "Frontend E2E testing tool" },
+        { name: "OpenAI", description: "AI API provider" },
+        { name: "LLM", description: "Large language models" },
+        { name: "n8n", description: "Workflow automation tool" },
+        { name: "Chrome extensions", description: "Browser extension dev" },
+        { name: "Alexa applications", description: "Voice skill development" }
+      ] as Skill[],
       socials: [
         { icon: "i-simple-icons-github", url: "https://github.com/SuharshTyagii" },
         { icon: "i-simple-icons-linkedin", url: "https://www.linkedin.com/in/suharsh-tyagi/" },
         { icon: "i-simple-icons-twitter", url: "https://twitter.com/yourhandle" },
         { icon: "i-simple-icons-hashnode", url: "https://hashnode.com/@yourhandle" }
-      ] as Social[]
+      ] as Social[],
+      projects: [
+        {
+          title: "Meet ALFEE – GPT-3 Conversational AI",
+          description: "Led frontend development of a GPT-3 powered chat agent that won 1st prize (100K credits) at the NextGrid.ai hackathon.",
+          url: "https://github.com/SuharshTyagii/Alfee"
+        },
+        {
+          title: "Loan Prepayment Simulator",
+          description: "Interactive ReactJS app to simulate loan EMIs and prepayment scenarios. Hosted via GitHub Pages and deployed using GitHub Actions.",
+          url: "https://suharshtyagii.github.io/Loan-Prepayment-Simulator/"
+        },
+        {
+          title: "Shelly AI – CLI Chat Assistant",
+          description: "Built with Node.js, this CLI tool enables users to chat with OpenAI-compatible models via OpenRouter directly in the terminal.",
+          url: "https://github.com/SuharshTyagii/Shelly-AI"
+        },
+        {
+          title: "QA Automation Runner",
+          description: "Browser-controlled Play/Pause runner built on top of PlaywrightJS that cut manual QA by 150%. Built a proprietary software for Wahve.",
+          url: "https://example.com/automation-runner"
+        },
+        {
+          title: "Wiserrr – WYSIWYG Wallpaper Editor",
+          description: "Built a NuxtJS-based WYSIWYG editor with NodeJS/MongoDB backend for designing and publishing custom home wallpapers.",
+          url: "https://iwdist.netlify.app/webapp"
+        },
+        {
+          title: "PUBG Tournament Management System",
+          description: "Automated slot booking and end-to-end tournament management for PUBG Mobile events on GamingMonk.com, streamlining operations and reducing manual overhead.",
+          url: ""
+        }
+
+      ]
+
+       // add more entries here…
+     
     };
   },
   methods: {
@@ -209,7 +233,7 @@ export default defineComponent({
   width: 100%;
   /* background-color: rgba(128, 128, 128, 0.358); */
   padding: 5px;
-/*  font-weight: bold; */
+  /*  font-weight: bold; */
   text-align: center;
   animation: rainbow-animation 3s linear infinite;
   /* opacity: 0; */
@@ -227,18 +251,23 @@ export default defineComponent({
   0% {
     color: #ae0000;
   }
+
   20% {
     color: #c17e00;
   }
+
   40% {
     color: #c8c800;
   }
+
   60% {
     color: #008000;
   }
+
   80% {
     color: #0000be;
   }
+
   100% {
     color: #4b0082;
   }

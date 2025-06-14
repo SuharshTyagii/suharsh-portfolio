@@ -1,6 +1,6 @@
 <template>
   <li
-    class="px-4 py-2 border border-gray-700 rounded-lg hover:bg-brand hover:text-amber-200 transition relative group"
+    class="px-4 py-2 border border-gray-700 rounded-lg hover:bg-brand  transition relative group "
   >
     {{ skill.name }}
     <div
