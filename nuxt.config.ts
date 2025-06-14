@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   app: {
     // replace with '/your-repo/' if using project pages
-    baseURL: process.env.NODE_ENV === 'production' ? '/suharsh-portfolio/' : '/',
+    baseURL: '/',
     head: {
       title: 'Suharsh Tyagi – Portfolio',
       meta: [
