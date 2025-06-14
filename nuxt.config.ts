@@ -10,6 +10,9 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
   },
+  nitro: {
+    preset: 'github_pages'
+  },
   css: ['~/assets/css/main.css'],
   app: {
     // replace with '/your-repo/' if using project pages
