@@ -26,7 +26,6 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    '@nuxt/content',
     '@nuxt/icon',
     '@nuxt/fonts',
     '@nuxt/image',
