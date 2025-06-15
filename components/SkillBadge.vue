@@ -4,12 +4,15 @@
   >
     {{ skill.name }}
     <div
-      class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block
-             bg-gray-800 text-white text-sm p-2 rounded shadow-lg whitespace-nowrap z-10
-             opacity-0 group-hover:opacity-100 transition-opacity duration-150"
-    >
-      {{ skill.description }}
-    </div>
+  class="absolute bottom-full left-0 mb-2 hidden group-hover:block
+         bg-gray-800 text-white text-sm p-2 rounded shadow-lg z-10
+         opacity-0 group-hover:opacity-100 transition-opacity duration-150
+         max-w-md whitespace-normal break-words"
+>
+  {{ skill.description }}
+</div>
+    <span class="sr-only">{{ skill.description }}</span>
+
   </li>
 </template>
 

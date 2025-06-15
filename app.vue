@@ -35,7 +35,7 @@ const nav = [
         <span class="space-x-4">
           <a class="hover:text-brand" href="https://github.com/SuharshTyagii" target="_blank">GitHub</a>
           <a class="hover:text-brand" href="https://www.linkedin.com/in/suharsh-tyagi/" target="_blank">LinkedIn</a>
-          <a class="hover:text-brand" href="mailto:hr.suharsntavgii@gcaiv">Email</a>
+          <a class="hover:text-brand" href="mailto:suharsh96@gmail.com">Email</a>
           <a class="hover:text-brand" href="tel:+918265826487">Call</a>
         </span>
       </div>
