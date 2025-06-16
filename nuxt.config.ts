@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     // replace with '/your-repo/' if using project pages
     baseURL: '/',
     head: {
-      title: 'Suharsh Tyagi – Portfolio',
+      title: 'Suharsh Tyagi – Hey there, welcome to my page!',
       meta: [
         { name: 'description', content: 'Full-stack & DevOps engineer – Nuxt, React, K8s, AWS' }
       ]

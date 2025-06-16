@@ -220,7 +220,7 @@ export default defineComponent({
             'Designed CI/CD pipelines, reducing deployment time by 65% and minimizing production bugs.',
             'Mentored junior developers, resulting in a 30% improvement in code quality.',
             'Led system architecture modernization using Kubernetes on AWS.',
-            'Worked on 4 client projects (3 in USA, 1 in UAE) including mentoripedia.io and an internal CRM platform.'
+            'Worked on 4 client projects (3 in USA, 1 in UAE) including mentorpedia.io and an internal CRM platform.'
           ]
         },
         {
