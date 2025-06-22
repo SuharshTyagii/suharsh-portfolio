@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Robber Solution Explained</title>
+    <style>
+        /* ---------- GLOBAL ---------- */
+        body{
+            font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+            max-width:900px;
+            margin:0 auto;
+            padding:20px;
+            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            color:#333;line-height:1.6;
+        }
+        a{color:#3182ce;text-decoration:none;}
+        a:hover{text-decoration:underline;}
+
+        /* ---------- LAYOUT ---------- */
+        .container{
+            background:#fff;
+            border-radius:15px;
+            padding:30px;
+            box-shadow:0 20px 40px rgba(0,0,0,.1);
+        }
+        h1{color:#4a5568;text-align:center;margin-bottom:25px;font-size:2.2em}
+        h2,h3{margin-top:0}
+
+        /* ---------- INFO BOXES ---------- */
+        .concept-box{
+            background:#f7fafc;
+            border-left:5px solid #4299e1;
+            padding:20px;
+            margin:20px 0;
+            border-radius:8px;
+        }
+        .step{
+            background:#fff5f5;
+            border:2px solid #fed7d7;
+            border-radius:10px;
+            padding:20px;
+            margin:20px 0;
+        }
+        .step h3{color:#c53030}
+
+        /* ---------- VARIABLES & INFOGRAPHIC ---------- */
+        .variables,.infographic{
+            display:flex;
+            justify-content:center;
+            gap:10px;
+            margin:20px 0;
+            flex-wrap:wrap;
+        }
+        .variable,.infobox{
+            background:#edf2f7;
+            padding:15px;
+            border-radius:8px;
+            text-align:center;
+            min-width:125px;
+            margin:5px;
+        }
+        .variable.rob1,.infobox.rob1{border:3px solid #ed8936}
+        .variable.rob2,.infobox.rob2{border:3px solid #38b2ac}
+        .infobox.current{border:3px dashed #e53e3e}
+        .arrow{font-size:24px;color:#718096}
+
+        /* ---------- HOUSES ---------- */
+        .houses{
+            display:flex;
+            justify-content:center;
+            gap:10px;
+            margin:20px 0;
+            flex-wrap:wrap;
+        }
+        .house{
+            width:60px;height:60px;
+            background:#4299e1;color:#fff;
+            display:flex;align-items:center;justify-content:center;
+            border-radius:8px;font-weight:bold;position:relative;
+            transition:transform .2s;
+        }
+
+        /* ---------- CODE ---------- */
+        .code-block{
+            background:#2d3748;color:#e2e8f0;
+            padding:20px;border-radius:8px;
+            font-family:'Courier New',monospace;
+            overflow-x:auto;
+        }
+        .code-block pre{margin:0;white-space:pre;}
+
+        /* ---------- DEMO ---------- */
+        .demo-section{
+            background:#f0fff4;
+            border:2px solid #9ae6b4;
+            border-radius:10px;
+            padding:20px;margin:20px 0;
+        }
+        button{
+            background:#4299e1;color:#fff;border:none;
+            padding:10px 20px;border-radius:5px;
+            cursor:pointer;font-size:16px;margin:10px 5px;
+        }
+        button:hover{background:#3182ce}
+        .iteration{
+            border:1px solid #cbd5e0;border-radius:8px;
+            padding:15px;margin:10px 0;background:#f7fafc;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🏠 House Robber Solution Explained</h1>
+  <p style="text-align:center">
+  <a  target="_blank" href="https://github.com/SuharshTyagii/suharsh-portfolio/tree/master/public/problems/house-robber-leetcode-198-interactive-explanation/index.html">Github</a>
+  </p>  
+  <!-- 0. LINK TO PROBLEM -->
+  <p style="text-align:center">
+        🔗 <a href="https://leetcode.com/problems/house-robber/description/" target="_blank">
+        View the original problem on LeetCode</a>
+    </p>
+
+    <!-- 1. BIG PICTURE -->
+    <div class="concept-box">
+        <h2>🧠 The Big Picture</h2>
+        <p>
+            We have to decide for every house whether to rob it or skip it.
+            Robbing house <code>i</code> means we cannot rob house <i>i-1</i>,
+            so we look two steps back; skipping it means we keep whatever we had
+            until the previous house. Dynamic programming with only two rolling
+            variables (<code>rob1</code>, <code>rob2</code>) is enough.
+        </p>
+    </div>
+
+    <!-- 2. VARIABLES -->
+    <div class="step">
+        <h3>🔍 Understanding the Variables</h3>
+        <div class="variables">
+            <div class="variable rob1">
+                <strong>rob1</strong><br>
+                <small>Best up to house <i>i − 2</i></small>
+            </div>
+            <div class="variable rob2">
+                <strong>rob2</strong><br>
+                <small>Best up to house <i>i − 1</i></small>
+            </div>
+        </div>
+        <p>They act like a sliding window of size 2 over the DP table.</p>
+
+        <!-- INFOGRAPHIC -->
+        <div class="infographic">
+            <div class="infobox rob1">
+                rob1<br><small>max till i-2</small>
+            </div>
+            <div class="arrow">→</div>
+            <div class="infobox rob2">
+                rob2<br><small>max till i-1</small>
+            </div>
+            <div class="arrow">→</div>
+            <div class="infobox current">
+                i<br><small>current house</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. ALGORITHM -->
+    <div class="step">
+        <h3>📝 The Algorithm – Step by Step</h3>
+        <div class="code-block">
+<pre><code>function rob(nums) {
+    let rob1 = 0;  // best up to i-2
+    let rob2 = 0;  // best up to i-1
+
+    for (const num of nums) {
+        const temp = Math.max(num + rob1,  // rob current
+                              rob2);       // skip current
+        rob1 = rob2; // shift window forward
+        rob2 = temp;
+    }
+    return rob2;
+}</code></pre>
+        </div>
+    </div>
+
+    <!-- 4. INTERACTIVE DEMO -->
+    <div class="demo-section">
+        <h3>🎮 Interactive Demo</h3>
+        <p>Trace the array: <code>[5, 1, 2, 10, 6, 2, 7, 9, 3, 1]</code></p>
+
+        <div class="houses" id="houses"></div>
+
+        <div class="variables" id="variables">
+            <div class="variable rob1">
+                <strong>rob1:</strong> <span id="rob1-val">0</span><br>
+                <small>best <i>i-2</i></small>
+            </div>
+            <div class="variable rob2">
+                <strong>rob2:</strong> <span id="rob2-val">0</span><br>
+                <small>best <i>i-1</i></small>
+            </div>
+            <div class="variable">
+                <strong>Current:</strong> <span id="current-val">-</span><br>
+                <small>value at <i>i</i></small>
+            </div>
+        </div>
+
+        <div style="text-align:center">
+            <button onclick="nextStep()">Next Step</button>
+            <button onclick="reset()">Reset</button>
+        </div>
+
+        <div id="explanation" style="margin-top:20px;padding:15px;background:#e6fffa;border-radius:8px">
+            <p><strong>Decision Logic:</strong></p>
+            <p id="decision-text">Click “Next Step” to begin!</p>
+        </div>
+    </div>
+
+    <!-- 5. WHY IT WORKS -->
+    <div class="step">
+        <h3>💡 Why This Works</h3>
+        <ul>
+            <li>We compare two scenarios for each house and keep the better one.</li>
+            <li><strong>Space:</strong> O(1) – only two variables.</li>
+            <li><strong>Time:</strong> O(n) – one pass over the array.</li>
+        </ul>
+    </div>
+
+    <!-- 6. KEY INSIGHTS -->
+    <div class="concept-box">
+        <h2>🎯 Key Insights</h2>
+        <ul>
+            <li>Greedy fails because local maxima can break the adjacency rule.</li>
+            <li>The pattern “decision at each step with two states” appears in many DP problems.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- ---------- JS ---------- -->
+<script>
+/* DATA */
+const nums = [5, 1, 2, 10, 6, 2, 7, 9, 3, 1];
+
+/* STATE */
+let currentStep = 0;
+let rob1 = 0;
+let rob2 = 0;
+
+/* INITIALISE HOUSES */
+function initializeHouses(){
+    const container = document.getElementById('houses');
+    container.innerHTML = '';
+    nums.forEach((num, i)=>{
+        const div = document.createElement('div');
+        div.className = 'house';
+        div.id = `house-${i}`;
+        div.textContent = num;
+        container.appendChild(div);
+    });
+}
+
+/* UPDATE UI */
+function updateDisplay(){
+    document.getElementById('rob1-val').textContent = rob1;
+    document.getElementById('rob2-val').textContent = rob2;
+
+    /* highlight */
+    document.querySelectorAll('.house').forEach(h=>h.style.border='none');
+    if(currentStep < nums.length){
+        document.getElementById('current-val').textContent = nums[currentStep];
+        document.getElementById(`house-${currentStep}`).style.border = '3px solid #e53e3e';
+    }else{
+        document.getElementById('current-val').textContent = 'Done!';
+    }
+}
+
+/* STEP HANDLER */
+function nextStep(){
+    if(currentStep >= nums.length){
+        document.getElementById('decision-text').textContent =
+            `🎉 Final answer: ${rob2}. Maximum money robbed!`;
+        return;
+    }
+
+    const currentHouse = nums[currentStep];
+    const robCurrent  = currentHouse + rob1;
+    const skipCurrent = rob2;
+    const decision    = Math.max(robCurrent, skipCurrent);
+
+    /* Explanation text */
+    document.getElementById('decision-text').innerHTML = `
+        <strong>House ${currentStep+1} (value ${currentHouse}):</strong><br>
+        • Rob → ${currentHouse} + ${rob1} = ${robCurrent}<br>
+        • Skip → ${skipCurrent}<br>
+        • <span style="color:#38a169">Best: ${decision}</span>
+          ${decision === robCurrent ? '(Rob)' : '(Skip)'}
+    `;
+
+    /* update DP variables */
+    rob1 = rob2;
+    rob2 = decision;
+
+    /* show current state BEFORE moving on */
+    updateDisplay();
+
+    /* advance pointer */
+    currentStep++;
+}
+
+/* RESET DEMO */
+function reset(){
+    currentStep = 0;
+    rob1 = 0;
+    rob2 = 0;
+    document.querySelectorAll('.house').forEach(h => h.style.border='none');
+    updateDisplay();
+    document.getElementById('decision-text').textContent =
+        'Click “Next Step” to begin!';
+}
+
+/* BOOTSTRAP */
+initializeHouses();
+updateDisplay();
+</script>
+</body>
+</html>
