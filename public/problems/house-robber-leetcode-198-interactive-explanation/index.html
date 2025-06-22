@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Robber Solution Explained</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #4a5568;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        
+        .concept-box {
+            background: #f7fafc;
+            border-left: 5px solid #4299e1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .step {
+            background: #fff5f5;
+            border: 2px solid #fed7d7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .step h3 {
+            color: #c53030;
+            margin-top: 0;
+        }
+        
+        .houses {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .house {
+            width: 60px;
+            height: 60px;
+            background: #4299e1;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        .house.robbed {
+            background: #48bb78;
+            transform: scale(1.1);
+        }
+        
+        .house.skipped {
+            background: #a0aec0;
+        }
+        
+        .variables {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .variable {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 120px;
+            margin: 5px;
+        }
+        
+        .variable.rob1 {
+            border: 3px solid #ed8936;
+        }
+        
+        .variable.rob2 {
+            border: 3px solid #38b2ac;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        .highlight {
+            background: #fef5e7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .demo-section {
+            background: #f0fff4;
+            border: 2px solid #9ae6b4;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        
+        button:hover {
+            background: #3182ce;
+        }
+        
+        .iteration {
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f7fafc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏠 House Robber Solution Explained</h1>
+        
+        <div class="concept-box">
+            <h2>🧠 The Big Picture</h2>
+            <p>This problem is about making optimal decisions at each house. The key insight is that for any house, you have two choices:</p>
+            <ul>
+                <li><strong>Rob this house:</strong> You get its money + the max money from houses that are NOT adjacent</li>
+                <li><strong>Skip this house:</strong> You get the max money from the previous house</li>
+            </ul>
+            <p>The solution uses <strong>dynamic programming</strong> to keep track of the maximum money you can get up to each point.</p>
+        </div>
+
+        <div class="step">
+            <h3>🔍 Understanding the Variables</h3>
+            <div class="variables">
+                <div class="variable rob1">
+                    <strong>rob1</strong><br>
+                    <small>Max money if we DON'T rob the previous house</small>
+                </div>
+                <div class="variable rob2">
+                    <strong>rob2</strong><br>
+                    <small>Max money if we CAN rob the previous house</small>
+                </div>
+            </div>
+            <p>Think of these as "memory" - they remember the best decisions we've made so far!</p>
+        </div>
+
+        <div class="step">
+            <h3>📝 The Algorithm Step by Step</h3>
+            <div class="code-block">
+function rob(nums) {
+    let rob1 = 0;  // Max money 2 houses ago
+    let rob2 = 0;  // Max money 1 house ago
+    
+    for (const num of nums) {
+        const temp = Math.max(num + rob1, rob2);
+        rob1 = rob2;
+        rob2 = temp;
+    }
+    return rob2;
+}
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🎮 Interactive Demo</h3>
+            <p>Let's trace through the example: [5, 1, 2, 10, 6, 2, 7, 9, 3, 1]</p>
+            
+            <div class="houses" id="houses">
+                <!-- Houses will be generated here -->
+            </div>
+            
+            <div class="variables" id="variables">
+                <div class="variable rob1">
+                    <strong>rob1:</strong> <span id="rob1-val">0</span><br>
+                    <small>Max 2 houses ago</small>
+                </div>
+                <div class="variable rob2">
+                    <strong>rob2:</strong> <span id="rob2-val">0</span><br>
+                    <small>Max 1 house ago</small>
+                </div>
+                <div class="variable">
+                    <strong>Current:</strong> <span id="current-val">-</span><br>
+                    <small>Current house value</small>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button onclick="nextStep()">Next Step</button>
+                <button onclick="reset()">Reset</button>
+                <button onclick="autoPlay()">Auto Play</button>
+            </div>
+            
+            <div id="explanation" style="margin-top: 20px; padding: 15px; background: #e6fffa; border-radius: 8px;">
+                <p><strong>Decision Logic:</strong></p>
+                <p id="decision-text">Click "Next Step" to begin!</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>💡 Why This Works</h3>
+            <p>At each house, we're asking: <span class="highlight">"What's the maximum money I can have at this point?"</span></p>
+            <p>We compare two scenarios:</p>
+            <ul>
+                <li><strong>Scenario 1:</strong> Rob current house + best result from 2 houses ago</li>
+                <li><strong>Scenario 2:</strong> Don't rob current house, keep the best result from 1 house ago</li>
+            </ul>
+            <p>We pick whichever gives us more money!</p>
+        </div>
+
+        <div class="concept-box">
+            <h2>🎯 Key Insights</h2>
+            <ul>
+                <li><strong>Space Efficient:</strong> We only need to remember the last 2 results, not all previous results</li>
+                <li><strong>Time Efficient:</strong> We visit each house exactly once - O(n) time complexity</li>
+                <li><strong>Greedy Won't Work:</strong> We can't just pick the highest values - we need to consider the constraint</li>
+                <li><strong>Pattern Recognition:</strong> This is a classic "decision at each step" dynamic programming problem</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const nums = [5, 1, 2, 10, 6, 2, 7, 9, 3, 1];
+        let currentStep = 0;
+        let rob1 = 0;
+        let rob2 = 0;
+        let isPlaying = false;
+
+        function initializeHouses() {
+            const housesContainer = document.getElementById('houses');
+            housesContainer.innerHTML = '';
+            nums.forEach((num, index) => {
+                const house = document.createElement('div');
+                house.className = 'house';
+                house.id = `house-${index}`;
+                house.textContent = num;
+                housesContainer.appendChild(house);
+            });
+        }
+
+        function updateDisplay() {
+            document.getElementById('rob1-val').textContent = rob1;
+            document.getElementById('rob2-val').textContent = rob2;
+            
+            if (currentStep < nums.length) {
+                document.getElementById('current-val').textContent = nums[currentStep];
+                // Highlight current house
+                document.querySelectorAll('.house').forEach(h => h.style.border = 'none');
+                document.getElementById(`house-${currentStep}`).style.border = '3px solid #e53e3e';
+            } else {
+                document.getElementById('current-val').textContent = 'Done!';
+            }
+        }
+
+        function nextStep() {
+            if (currentStep >= nums.length) {
+                document.getElementById('decision-text').textContent = `🎉 Final answer: ${rob2}. We've found the maximum money we can rob!`;
+                return;
+            }
+
+            const currentHouse = nums[currentStep];
+            const robCurrent = currentHouse + rob1;
+            const skipCurrent = rob2;
+            const decision = Math.max(robCurrent, skipCurrent);
+
+            document.getElementById('decision-text').innerHTML = `
+                <strong>House ${currentStep + 1} (value: ${currentHouse}):</strong><br>
+                • Rob this house: ${currentHouse} + ${rob1} = ${robCurrent}<br>
+                • Skip this house: ${skipCurrent}<br>
+                • <span style="color: #38a169;">Best choice: ${decision}</span> ${decision === robCurrent ? '(Rob it!)' : '(Skip it)'}
+            `;
+
+            // Update variables
+            rob1 = rob2;
+            rob2 = decision;
+            currentStep++;
+
+            updateDisplay();
+        }
+
+        function reset() {
+            currentStep = 0;
+            rob1 = 0;
+            rob2 = 0;
+            isPlaying = false;
+            document.querySelectorAll('.house').forEach(h => {
+                h.style.border = 'none';
+                h.className = 'house';
+            });
+            updateDisplay();
+            document.getElementById('decision-text').textContent = 'Click "Next Step" to begin!';
+        }
+
+        function autoPlay() {
+            if (isPlaying) return;
+            isPlaying = true;
+            
+            const interval = setInterval(() => {
+                nextStep();
+                if (currentStep >= nums.length) {
+                    clearInterval(interval);
+                    isPlaying = false;
+                }
+            }, 1500);
+        }
+
+        // Initialize
+        initializeHouses();
+        updateDisplay();
+    </script>
+</body>
+</html>
