@@ -18,17 +18,26 @@ export default defineNuxtConfig({
     // replace with '/your-repo/' if using project pages
     baseURL: '/',
     head: {
-      title: 'Suharsh Tyagi – Hey there, welcome to my page!',
+      title: 'Suharsh Tyagi – Full-stack & DevOps engineer. | Suharshh.com',
       meta: [
-        { name: 'description', content: 'Full-stack & DevOps engineer – Nuxt, React, K8s, AWS' }
+        { name: 'description', content: 'Portfolio of Suharshh – Vue, React, Kubernetes, AWS.' }
       ]
     }
   },
+  seo: {
+    siteUrl: 'https://suharshh.com',
+    canonical: true,
+    ogTitle: true,
+    ogDescription: true,
+    sitemap: { autoLastmod: true }
+  },
+
 
   modules: [
     '@nuxt/icon',
     '@nuxt/fonts',
     '@nuxt/image',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@nuxtjs/seo'
   ]
 })

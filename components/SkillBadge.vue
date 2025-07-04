@@ -9,8 +9,8 @@
          opacity-0 group-hover:opacity-100 transition-opacity duration-150
          max-w-md whitespace-normal break-words"
 >
-  {{ skill.description }}
-</div>
+      {{ skill.description }}
+      </div>
     <span class="sr-only">{{ skill.description }}</span>
 
   </li>
