@@ -10,6 +10,11 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
   },
+  site: {
+    url: 'https://suharshh.com',
+    name: 'Suharshh Tyagi',
+    description: 'Full-stack & DevOps engineer – portfolio'
+  },
   nitro: {
     preset: 'github_pages'
   },
