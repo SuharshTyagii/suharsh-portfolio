@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "fix:meals-poster": "node scripts/fix-meals-poster-paths.js"
   },
   "dependencies": {
     "@nuxt/fonts": "^0.11.4",
