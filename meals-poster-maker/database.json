@@ -1,0 +1,571 @@
+{
+  "categories": [
+    {
+      "id": 1769094896486,
+      "name": "Vegetable/main curries"
+    },
+    {
+      "id": 1769094953981,
+      "name": "Breads"
+    },
+    {
+      "id": 1769095575122,
+      "name": "Dal"
+    },
+    {
+      "id": 1769105674813,
+      "name": "Miscellaneous(Breakfast, snacks, etc)"
+    }
+  ],
+  "meals": [
+    {
+      "id": 1769094913004,
+      "categoryId": 1769094896486,
+      "name": "Palak paneer",
+      "items": [
+        "palak",
+        "paneer",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000001,
+      "categoryId": 1769094896486,
+      "name": "Shahi Paneer",
+      "items": [
+        "paneer",
+        "cashew",
+        "tomatoes",
+        "cream"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000002,
+      "categoryId": 1769094896486,
+      "name": "Matar Paneer",
+      "items": [
+        "paneer",
+        "matar",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000003,
+      "categoryId": 1769094896486,
+      "name": "Kadai Paneer",
+      "items": [
+        "paneer",
+        "capsicum",
+        "onion",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000005,
+      "categoryId": 1769094896486,
+      "name": "Aloo Matar",
+      "items": [
+        "aloo",
+        "tomatoes",
+        "onion",
+        "peas"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000008,
+      "categoryId": 1769094896486,
+      "name": "Bhindi Masala",
+      "items": [
+        "bhindi",
+        "onion",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000009,
+      "categoryId": 1769094896486,
+      "name": "Lauki",
+      "items": [
+        "lauki",
+        "tomatoes",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000010,
+      "categoryId": 1769094896486,
+      "name": "Tinda",
+      "items": [
+        "tinda",
+        "tomatoes",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000011,
+      "categoryId": 1769094896486,
+      "name": "Karela Sabzi",
+      "items": [
+        "karela",
+        "onion",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000012,
+      "categoryId": 1769094896486,
+      "name": "Chole",
+      "items": [
+        "chole",
+        "tomatoes",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000013,
+      "categoryId": 1769094896486,
+      "name": "Rajma",
+      "items": [
+        "rajma",
+        "tomatoes",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000014,
+      "categoryId": 1769095575122,
+      "name": "Dal Tadka",
+      "items": [
+        "dal",
+        "tomatoes",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000016,
+      "categoryId": 1769094896486,
+      "name": "Mix Veg Sabzi",
+      "items": [
+        "carrots",
+        "potatoes",
+        "cabbage",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000017,
+      "categoryId": 1769094896486,
+      "name": "Gajar Matar",
+      "items": [
+        "gajar",
+        "matar",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000018,
+      "categoryId": 1769094896486,
+      "name": "Soyabean Curry",
+      "items": [
+        "soyabean",
+        "tomatoes",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769096000020,
+      "categoryId": 1769094896486,
+      "name": "Mushroom Masala",
+      "items": [
+        "mushroom",
+        "tomatoes",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769095328201,
+      "categoryId": 1769094953981,
+      "name": "Normal Roti",
+      "items": [
+        "Aata",
+        "Ghee"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769095340721,
+      "categoryId": 1769094953981,
+      "name": "Methi parantha",
+      "items": [
+        "methi ",
+        "aata"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769095356189,
+      "categoryId": 1769094953981,
+      "name": "Aloo Parantha",
+      "items": [
+        "Aloo",
+        "Aata"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769095364828,
+      "categoryId": 1769094953981,
+      "name": "Dosa",
+      "items": [
+        "Dosa batter"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769095375934,
+      "categoryId": 1769094953981,
+      "name": "Tawa parantha",
+      "items": [
+        "Aata"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769095597830,
+      "categoryId": 1769095575122,
+      "name": "Dal Makhani",
+      "items": [
+        "urad dal",
+        "rajma",
+        "butter",
+        "cream"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105489052,
+      "categoryId": 1769095575122,
+      "name": "Moong Dal",
+      "items": [
+        "Moong Dal",
+        "Tomatoes",
+        "Dhaniya"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105508064,
+      "categoryId": 1769095575122,
+      "name": "Arhar Dal",
+      "items": [
+        "Arhar Dal",
+        "Tomatoes",
+        "Onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105686056,
+      "categoryId": 1769105674813,
+      "name": "Omlette",
+      "items": [
+        "Eggs",
+        "Tomatoes",
+        "Onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105711731,
+      "categoryId": 1769105674813,
+      "name": "Poha",
+      "items": [
+        "Poha",
+        "Peanuts",
+        "Tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105732530,
+      "categoryId": 1769105674813,
+      "name": "Pasta",
+      "items": [
+        "Pasta",
+        "Pasta sauce",
+        "Tomatoes",
+        "Cheese"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105759807,
+      "categoryId": 1769105674813,
+      "name": "Loaded Nachos",
+      "items": [
+        "Nachos",
+        "Cheese",
+        "Tomatoes",
+        "Onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105775710,
+      "categoryId": 1769095575122,
+      "name": "Toor Dal",
+      "items": [
+        "Toor Dal",
+        "Tomatoes",
+        "Dhaniya"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105794645,
+      "categoryId": 1769094953981,
+      "name": "Besan Chilla",
+      "items": [
+        "Besan",
+        "Onion",
+        "Tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105920796,
+      "categoryId": 1769094896486,
+      "name": "Black Beans",
+      "items": [
+        "Black Beans",
+        "Tomatoes",
+        "Dhaniya"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105936578,
+      "categoryId": 1769105674813,
+      "name": "Biryani",
+      "items": [
+        "Rice",
+        "Vegetables",
+        "Paneer"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105958960,
+      "categoryId": 1769105674813,
+      "name": "Khichdi",
+      "items": [
+        "Moong Dal",
+        "Rice",
+        "Curd"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769105978411,
+      "categoryId": 1769094953981,
+      "name": "Puri",
+      "items": [
+        "Aata",
+        "Oil"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106085905,
+      "categoryId": 1769094896486,
+      "name": "Paneer Bhurji",
+      "items": [
+        "paneer",
+        "peas",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106125112,
+      "categoryId": 1769094896486,
+      "name": "Veg kofta",
+      "items": [
+        "cabbage",
+        "carrot",
+        "potatoes",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106139716,
+      "categoryId": 1769094896486,
+      "name": "Kadhi",
+      "items": [
+        "besan",
+        "curd",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106168988,
+      "categoryId": 1769094896486,
+      "name": "Aloo gobhi",
+      "items": [
+        "potatoes",
+        "gobhi",
+        "peas"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106198090,
+      "categoryId": 1769094896486,
+      "name": "Bhindi fry",
+      "items": [
+        "bhindi",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106211392,
+      "categoryId": 1769094896486,
+      "name": "Parwal sabzi",
+      "items": [
+        "parwal",
+        "onion",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106237064,
+      "categoryId": 1769095575122,
+      "name": "Chana Dal",
+      "items": [
+        "chana",
+        "tomatoes",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106276926,
+      "categoryId": 1769105674813,
+      "name": "Sprouts",
+      "items": [
+        "chana",
+        "peas",
+        "onion",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106295473,
+      "categoryId": 1769095575122,
+      "name": "Gobhi parantha",
+      "items": [
+        "gobhi",
+        "aata"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106308144,
+      "categoryId": 1769095575122,
+      "name": "paneer parantha",
+      "items": [
+        "paneer",
+        "aata"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106335045,
+      "categoryId": 1769105674813,
+      "name": "Fried Rice",
+      "items": [
+        "Rice",
+        "Vegetables",
+        "Onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106357229,
+      "categoryId": 1769105674813,
+      "name": "Maggi",
+      "items": [
+        "maggi",
+        "peas",
+        "onion",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106412682,
+      "categoryId": 1769094896486,
+      "name": "Kathal",
+      "items": [
+        "kathal",
+        "tomatoes",
+        "onion"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106433438,
+      "categoryId": 1769094896486,
+      "name": "Baingan",
+      "items": [
+        "baingan",
+        "onion",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106447529,
+      "categoryId": 1769094896486,
+      "name": "Tori",
+      "items": [
+        "tori",
+        "tomatoes"
+      ],
+      "image": ""
+    },
+    {
+      "id": 1769106485223,
+      "categoryId": 1769105674813,
+      "name": "Egg bhurji",
+      "items": [
+        "eggs",
+        "onion",
+        "tomatoes"
+      ],
+      "image": ""
+    }
+  ],
+  "exportedAt": "2026-01-22T18:28:52.282Z"
+}
