@@ -421,8 +421,8 @@
       "categoryId": 1769094953981,
       "name": "Normal Roti",
       "items": [
-        "Aata",
-        "Ghee"
+        "aata",
+        "ghee"
       ],
       "image": ""
     },
@@ -431,7 +431,7 @@
       "categoryId": 1769094953981,
       "name": "Methi parantha",
       "items": [
-        "methi ",
+        "methi",
         "aata"
       ],
       "image": ""
@@ -441,8 +441,8 @@
       "categoryId": 1769094953981,
       "name": "Aloo Parantha",
       "items": [
-        "Aloo",
-        "Aata"
+        "aloo",
+        "aata"
       ],
       "image": ""
     },
@@ -451,7 +451,7 @@
       "categoryId": 1769094953981,
       "name": "Dosa",
       "items": [
-        "Dosa batter"
+        "dosa batter"
       ],
       "image": ""
     },
@@ -460,7 +460,7 @@
       "categoryId": 1769094953981,
       "name": "Tawa parantha",
       "items": [
-        "Aata"
+        "aata"
       ],
       "image": ""
     },
@@ -481,9 +481,9 @@
       "categoryId": 1769095575122,
       "name": "Moong Dal",
       "items": [
-        "Moong Dal",
-        "Tomatoes",
-        "Dhaniya"
+        "moong dal",
+        "tomatoes",
+        "dhaniya"
       ],
       "image": ""
     },
@@ -492,9 +492,9 @@
       "categoryId": 1769095575122,
       "name": "Arhar Dal",
       "items": [
-        "Arhar Dal",
-        "Tomatoes",
-        "Onion"
+        "arhar dal",
+        "tomatoes",
+        "onion"
       ],
       "image": ""
     },
@@ -503,9 +503,9 @@
       "categoryId": 1769105674813,
       "name": "Omlette",
       "items": [
-        "Eggs",
-        "Tomatoes",
-        "Onion"
+        "eggs",
+        "tomatoes",
+        "onion"
       ],
       "image": ""
     },
@@ -514,9 +514,9 @@
       "categoryId": 1769105674813,
       "name": "Poha",
       "items": [
-        "Poha",
-        "Peanuts",
-        "Tomatoes"
+        "poha",
+        "peanuts",
+        "tomatoes"
       ],
       "image": ""
     },
@@ -525,10 +525,10 @@
       "categoryId": 1769105674813,
       "name": "Pasta",
       "items": [
-        "Pasta",
-        "Pasta sauce",
-        "Tomatoes",
-        "Cheese"
+        "pasta",
+        "pasta sauce",
+        "tomatoes",
+        "cheese"
       ],
       "image": ""
     },
@@ -537,10 +537,10 @@
       "categoryId": 1769105674813,
       "name": "Loaded Nachos",
       "items": [
-        "Nachos",
-        "Cheese",
-        "Tomatoes",
-        "Onion"
+        "nachos",
+        "cheese",
+        "tomatoes",
+        "onion"
       ],
       "image": ""
     },
@@ -549,9 +549,9 @@
       "categoryId": 1769095575122,
       "name": "Toor Dal",
       "items": [
-        "Toor Dal",
-        "Tomatoes",
-        "Dhaniya"
+        "toor dal",
+        "tomatoes",
+        "dhaniya"
       ],
       "image": ""
     },
@@ -560,9 +560,9 @@
       "categoryId": 1769094953981,
       "name": "Besan Chilla",
       "items": [
-        "Besan",
-        "Onion",
-        "Tomatoes"
+        "besan",
+        "onion",
+        "tomatoes"
       ],
       "image": ""
     },
@@ -571,9 +571,9 @@
       "categoryId": 1769094896486,
       "name": "Black Beans",
       "items": [
-        "Black Beans",
-        "Tomatoes",
-        "Dhaniya"
+        "black beans",
+        "tomatoes",
+        "dhaniya"
       ],
       "image": ""
     },
@@ -582,9 +582,9 @@
       "categoryId": 1769105674813,
       "name": "Biryani",
       "items": [
-        "Rice",
-        "Vegetables",
-        "Paneer"
+        "rice",
+        "vegetables",
+        "paneer"
       ],
       "image": ""
     },
@@ -593,9 +593,9 @@
       "categoryId": 1769105674813,
       "name": "Khichdi",
       "items": [
-        "Moong Dal",
-        "Rice",
-        "Curd"
+        "moong dal",
+        "rice",
+        "curd"
       ],
       "image": ""
     },
@@ -604,8 +604,8 @@
       "categoryId": 1769094953981,
       "name": "Puri",
       "items": [
-        "Aata",
-        "Oil"
+        "aata",
+        "oil"
       ],
       "image": ""
     },
@@ -724,9 +724,9 @@
       "categoryId": 1769105674813,
       "name": "Fried Rice",
       "items": [
-        "Rice",
-        "Vegetables",
-        "Onion"
+        "rice",
+        "vegetables",
+        "onion"
       ],
       "image": ""
     },
