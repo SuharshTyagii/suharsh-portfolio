@@ -1,4 +1,222 @@
 {
+  "ingredients": [
+    {
+      "id": 1,
+      "name": "aalo"
+    },
+    {
+      "id": 2,
+      "name": "aata"
+    },
+    {
+      "id": 3,
+      "name": "arhar dal"
+    },
+    {
+      "id": 4,
+      "name": "baingan"
+    },
+    {
+      "id": 5,
+      "name": "besan"
+    },
+    {
+      "id": 6,
+      "name": "bhindi"
+    },
+    {
+      "id": 7,
+      "name": "black beans"
+    },
+    {
+      "id": 8,
+      "name": "butter"
+    },
+    {
+      "id": 9,
+      "name": "cabbage"
+    },
+    {
+      "id": 10,
+      "name": "capsicum"
+    },
+    {
+      "id": 11,
+      "name": "carrots"
+    },
+    {
+      "id": 12,
+      "name": "cashew"
+    },
+    {
+      "id": 13,
+      "name": "chana"
+    },
+    {
+      "id": 14,
+      "name": "chana dal"
+    },
+    {
+      "id": 15,
+      "name": "cheese"
+    },
+    {
+      "id": 16,
+      "name": "chole"
+    },
+    {
+      "id": 17,
+      "name": "cream"
+    },
+    {
+      "id": 18,
+      "name": "curd"
+    },
+    {
+      "id": 19,
+      "name": "dal"
+    },
+    {
+      "id": 20,
+      "name": "dhaniya"
+    },
+    {
+      "id": 21,
+      "name": "dosa batter"
+    },
+    {
+      "id": 22,
+      "name": "eggs"
+    },
+    {
+      "id": 23,
+      "name": "gajar"
+    },
+    {
+      "id": 24,
+      "name": "ghee"
+    },
+    {
+      "id": 25,
+      "name": "gobhi"
+    },
+    {
+      "id": 26,
+      "name": "karela"
+    },
+    {
+      "id": 27,
+      "name": "kathal"
+    },
+    {
+      "id": 28,
+      "name": "lauki"
+    },
+    {
+      "id": 29,
+      "name": "maggi"
+    },
+    {
+      "id": 30,
+      "name": "matar"
+    },
+    {
+      "id": 31,
+      "name": "methi"
+    },
+    {
+      "id": 32,
+      "name": "moong dal"
+    },
+    {
+      "id": 33,
+      "name": "mushroom"
+    },
+    {
+      "id": 34,
+      "name": "nachos"
+    },
+    {
+      "id": 35,
+      "name": "oil"
+    },
+    {
+      "id": 36,
+      "name": "onion"
+    },
+    {
+      "id": 37,
+      "name": "palak"
+    },
+    {
+      "id": 38,
+      "name": "paneer"
+    },
+    {
+      "id": 39,
+      "name": "parwal"
+    },
+    {
+      "id": 40,
+      "name": "pasta"
+    },
+    {
+      "id": 41,
+      "name": "pasta sauce"
+    },
+    {
+      "id": 42,
+      "name": "peanuts"
+    },
+    {
+      "id": 43,
+      "name": "peas"
+    },
+    {
+      "id": 44,
+      "name": "poha"
+    },
+    {
+      "id": 45,
+      "name": "potatoes"
+    },
+    {
+      "id": 46,
+      "name": "rajma"
+    },
+    {
+      "id": 47,
+      "name": "rice"
+    },
+    {
+      "id": 48,
+      "name": "soyabean"
+    },
+    {
+      "id": 49,
+      "name": "tinda"
+    },
+    {
+      "id": 50,
+      "name": "tomatoes"
+    },
+    {
+      "id": 51,
+      "name": "toor dal"
+    },
+    {
+      "id": 52,
+      "name": "tori"
+    },
+    {
+      "id": 53,
+      "name": "urad dal"
+    },
+    {
+      "id": 54,
+      "name": "vegetables"
+    }
+  ],
   "categories": [
     {
       "id": 1769094896486,
