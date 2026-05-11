@@ -56,6 +56,7 @@
       align-items: center;
       justify-content: center;
       transition: background .3s, color .3s;
+      margin-bottom: 10px;
     }
 
     #status.check {
@@ -205,6 +206,11 @@
       transform: rotate(180deg);
     }
 
+    /* Always rotate black pieces if flip is disabled */
+    #board-wrap:not(.flipped) .piece[data-color="b"] {
+      transform: rotate(180deg);
+    }
+
     .piece.dragging {
       opacity: .35;
       cursor: grabbing;
@@ -237,6 +243,11 @@
     #controls {
       display: flex;
       gap: 12px;
+      transition: transform 0.5s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    #board-wrap.flipped ~ #controls {
+      transform: rotate(180deg);
     }
 
     .btn {
@@ -351,12 +362,12 @@
 <body>
 
   <div id="app">
-    <!-- <div id="status">White to move</div> -->
+    <div id="status">White to move</div>
     <div id="board-wrap">
       <div id="board"></div>
     </div>
     <div id="controls">
-      <button class="btn" onclick="resetGame()">New Game</button>
+      <button class="btn" onclick="confirmNewGame()">New Game</button>
       <button class="btn" onclick="undoMove()">Undo</button>
     </div>
   </div>
@@ -690,7 +701,14 @@
       updateStatus();
       updateFlip();
       saveState();
+      updateURL();
+    }
 
+    function updateURL() {
+      const fen = game.fen();
+      const newUrl = window.location.pathname + '?fen=' + encodeURIComponent(fen);
+      window.history.replaceState(null, '', newUrl);
+      console.log('URL updated to:', newUrl);
     }
 
     // ── Promotion UI ───────────────────────────────────────────
@@ -858,6 +876,12 @@
     });
 
     // ── Controls ───────────────────────────────────────────────
+    function confirmNewGame() {
+      if (confirm('Start a new game?')) {
+        resetGame();
+      }
+    }
+
     function resetGame() {
       localStorage.removeItem('chess_state');
       game = new Chess();
@@ -868,6 +892,7 @@
       updateStatus();
       updateFlip();
       playSound('move');
+      updateURL();
     }
 
     function undoMove() {
@@ -880,13 +905,24 @@
       updateStatus();
       updateFlip();
       playSound('move');
+      updateURL();
     }
 
     // ── Init ───────────────────────────────────────────────────
-    loadState();
-    buildBoard();
-    updateStatus();
-    updateFlip();
+    function initGame() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fen = urlParams.get('fen');
+      if (fen) {
+        game = new Chess(fen);
+      } else {
+        loadState();
+      }
+      buildBoard();
+      updateStatus();
+      updateFlip();
+    }
+
+    initGame();
   </script>
 </body>
 
