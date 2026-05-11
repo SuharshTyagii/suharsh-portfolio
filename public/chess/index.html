@@ -628,17 +628,14 @@
 
     // ── Flip board towards current player ──────────────────────
     function updateFlip() {
-      if (flipEnabled && game.turn() === 'b') {
-        wrapEl.classList.add('flipped');
-      } else {
-        wrapEl.classList.remove('flipped');
-      }
+      wrapEl.classList.toggle('flipped', flipEnabled);
     }
 
     function toggleFlip() {
       flipEnabled = !flipEnabled;
       document.getElementById('flip-toggle').classList.toggle('active', flipEnabled);
       updateFlip();
+      saveState();
     }
 
     // ── Try to make a move ─────────────────────────────────────
