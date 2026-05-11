@@ -37,6 +37,8 @@
       width: 100%;
       gap: 10px;
       padding: 10px;
+      padding-left: 70px;
+      padding-right: 70px;
     }
 
     /* ─── Status Bar ────────────────────────────────────── */
@@ -69,8 +71,8 @@
     /* ─── Board Container ───────────────────────────────── */
     #board-wrap {
       position: relative;
-      width: min(90vw, 90vh, 560px);
-      height: min(90vw, 90vh, 560px);
+      width: min(calc(100vh - 10px), 90vw, 560px);
+      height: min(calc(100vh - 10px), 90vw, 560px);
       transition: transform 0.7s cubic-bezier(.4, 0, .2, 1);
     }
 
@@ -208,6 +210,18 @@
       cursor: grabbing;
     }
 
+    /* Black pieces - solid black, no shine */
+    .piece[data-color="b"] {
+      color: #000000 !important;
+      filter: none !important;
+      font-weight: 900;
+    }
+    
+    /* Black pawns - use filled circle and make slightly larger */
+    .piece[data-color="b"][data-piece="p"] {
+      /* font-size: clamp(36px, 10vmin, 64px) !important; */
+    }
+
     /* ─── Ghost (drag image) ────────────────────────────── */
     #ghost {
       position: fixed;
@@ -337,7 +351,7 @@
 <body>
 
   <div id="app">
-    <div id="status">White to move</div>
+    <!-- <div id="status">White to move</div> -->
     <div id="board-wrap">
       <div id="board"></div>
     </div>
@@ -550,6 +564,8 @@
             span.className = 'piece';
             span.textContent = PIECE_UNICODE[p.color + p.type.toUpperCase()];
             span.dataset.sq = sq;
+            span.dataset.color = p.color;
+            span.dataset.piece = p.type;
             div.appendChild(span);
           }
 
