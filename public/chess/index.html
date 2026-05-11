@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Chess — Local</title>
   <style>
     /* ─── Reset & Page ──────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      height: 100%; width: 100%;
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
       overflow: hidden;
       background: #1a1a2e;
       font-family: 'Segoe UI', system-ui, sans-serif;
@@ -19,9 +29,12 @@
 
     /* ─── Layout ────────────────────────────────────────── */
     #app {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      height: 100%; width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
       gap: 10px;
       padding: 10px;
     }
@@ -33,23 +46,34 @@
       text-align: center;
       padding: 8px 20px;
       border-radius: 12px;
-      background: rgba(255,255,255,0.07);
+      background: rgba(255, 255, 255, 0.07);
       backdrop-filter: blur(6px);
       letter-spacing: .5px;
       min-height: 38px;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: background .3s, color .3s;
     }
-    #status.check { background: rgba(231,76,60,.25); color: #ff6b6b; }
-    #status.end   { background: rgba(46,204,113,.2);  color: #6bffa1; }
+
+    #status.check {
+      background: rgba(231, 76, 60, .25);
+      color: #ff6b6b;
+    }
+
+    #status.end {
+      background: rgba(46, 204, 113, .2);
+      color: #6bffa1;
+    }
 
     /* ─── Board Container ───────────────────────────────── */
     #board-wrap {
       position: relative;
       width: min(90vw, 90vh, 560px);
       height: min(90vw, 90vh, 560px);
-      transition: transform 0.7s cubic-bezier(.4,0,.2,1);
+      transition: transform 0.7s cubic-bezier(.4, 0, .2, 1);
     }
+
     /* board stays fixed; pieces flip to face current player */
 
     /* ─── Board Grid ────────────────────────────────────── */
@@ -57,50 +81,75 @@
       display: grid;
       grid-template-columns: repeat(8, 1fr);
       grid-template-rows: repeat(8, 1fr);
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       border-radius: 10px;
       overflow: hidden;
       box-shadow:
         0 0 0 4px #5a3e28,
         0 0 0 8px #3e2a18,
-        0 12px 40px rgba(0,0,0,.6);
+        0 12px 40px rgba(0, 0, 0, .6);
     }
 
     /* ─── Squares ───────────────────────────────────────── */
     .square {
       position: relative;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0;              /* pieces set own size */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0;
+      /* pieces set own size */
       cursor: pointer;
       transition: background .15s;
     }
-    .square.light { background: #f0d9b5; }
-    .square.dark  { background: #b58863; }
+
+    .square.light {
+      background: #f0d9b5;
+    }
+
+    .square.dark {
+      background: #b58863;
+    }
 
     /* Hover / selection highlight */
-    .square.selected        { background: rgba(255,255,90,.55) !important; }
+    .square.selected {
+      background: rgba(255, 255, 90, .55) !important;
+    }
+
     .square.legal-target::after {
       content: '';
       position: absolute;
-      width: 30%; height: 30%;
+      width: 30%;
+      height: 30%;
       border-radius: 50%;
-      background: rgba(0,0,0,.18);
+      background: rgba(0, 0, 0, .18);
       pointer-events: none;
       z-index: 1;
     }
+
     .square.legal-capture::after {
       content: '';
       position: absolute;
-      width: 88%; height: 88%;
+      width: 88%;
+      height: 88%;
       border-radius: 50%;
-      border: 4px solid rgba(0,0,0,.18);
+      border: 4px solid rgba(0, 0, 0, .18);
       background: transparent;
       pointer-events: none;
       z-index: 1;
     }
-    .square.last-from { background: rgba(155,199,0,.45) !important; }
-    .square.last-to   { background: rgba(155,199,0,.55) !important; }
-    .square.king-check { background: radial-gradient(circle, #ff0000aa 0%, #ff000044 60%, transparent 100%) !important; }
+
+    .square.last-from {
+      background: rgba(155, 199, 0, .45) !important;
+    }
+
+    .square.last-to {
+      background: rgba(155, 199, 0, .55) !important;
+    }
+
+    .square.king-check {
+      background: radial-gradient(circle, #ff0000aa 0%, #ff000044 60%, transparent 100%) !important;
+    }
 
     /* Coordinate labels */
     .square .coord-file,
@@ -112,12 +161,26 @@
       z-index: 2;
       opacity: .55;
     }
-    .square .coord-file { bottom: 2px; right: 4px; }
-    .square .coord-rank { top: 2px;    left: 4px;  }
+
+    .square .coord-file {
+      bottom: 2px;
+      right: 4px;
+    }
+
+    .square .coord-rank {
+      top: 2px;
+      left: 4px;
+    }
+
     .square.light .coord-file,
-    .square.light .coord-rank { color: #b58863; }
+    .square.light .coord-rank {
+      color: #b58863;
+    }
+
     .square.dark .coord-file,
-    .square.dark .coord-rank  { color: #f0d9b5; }
+    .square.dark .coord-rank {
+      color: #f0d9b5;
+    }
 
     /* ─── Pieces ────────────────────────────────────────── */
     .piece {
@@ -126,13 +189,19 @@
       z-index: 3;
       cursor: grab;
       transition: transform .05s;
-      filter: drop-shadow(1px 2px 2px rgba(0,0,0,.35));
+      filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, .35));
     }
+
     /* rotate pieces & coords to face current player */
-    .piece { transition: transform 0.5s cubic-bezier(.4,0,.2,1); }
+    .piece {
+      transition: transform 0.5s cubic-bezier(.4, 0, .2, 1);
+    }
+
     #board-wrap.flipped .piece,
     #board-wrap.flipped .coord-file,
-    #board-wrap.flipped .coord-rank { transform: rotate(180deg); }
+    #board-wrap.flipped .coord-rank {
+      transform: rotate(180deg);
+    }
 
     .piece.dragging {
       opacity: .35;
@@ -146,41 +215,57 @@
       z-index: 1000;
       font-size: clamp(36px, 10vmin, 64px);
       line-height: 1;
-      filter: drop-shadow(2px 4px 6px rgba(0,0,0,.5));
+      filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, .5));
       display: none;
     }
 
     /* ─── Buttons ───────────────────────────────────────── */
     #controls {
-      display: flex; gap: 12px;
+      display: flex;
+      gap: 12px;
     }
+
     .btn {
       padding: 8px 22px;
-      border: none; border-radius: 8px;
+      border: none;
+      border-radius: 8px;
       font-size: clamp(12px, 2vmin, 16px);
       font-weight: 600;
       cursor: pointer;
-      background: rgba(255,255,255,.1);
+      background: rgba(255, 255, 255, .1);
       color: #ccc;
       transition: background .2s, color .2s;
     }
-    .btn:hover { background: rgba(255,255,255,.2); color: #fff; }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, .2);
+      color: #fff;
+    }
 
     /* ─── Promotion Modal ───────────────────────────────── */
     #promo-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.6);
-      display: none; align-items: center; justify-content: center;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .6);
+      display: none;
+      align-items: center;
+      justify-content: center;
       z-index: 2000;
     }
-    #promo-overlay.active { display: flex; }
+
+    #promo-overlay.active {
+      display: flex;
+    }
+
     #promo-box {
       background: #2c2c3e;
       border-radius: 16px;
       padding: 20px 24px;
-      display: flex; gap: 14px;
-      box-shadow: 0 10px 40px rgba(0,0,0,.5);
+      display: flex;
+      gap: 14px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .5);
     }
+
     .promo-piece {
       font-size: clamp(36px, 10vmin, 64px);
       cursor: pointer;
@@ -188,7 +273,10 @@
       border-radius: 12px;
       transition: background .15s;
     }
-    .promo-piece:hover { background: rgba(255,255,255,.15); }
+
+    .promo-piece:hover {
+      background: rgba(255, 255, 255, .15);
+    }
 
     /* ─── Side Toggle Panel ─────────────────────────────── */
     #side-panel {
@@ -196,26 +284,42 @@
       left: 12px;
       top: 50%;
       transform: translateY(-50%);
-      display: flex; flex-direction: column;
+      display: flex;
+      flex-direction: column;
       gap: 10px;
       z-index: 500;
     }
+
     .toggle-btn {
-      display: flex; align-items: center; gap: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       padding: 8px 14px;
-      border: none; border-radius: 10px;
+      border: none;
+      border-radius: 10px;
       font-size: clamp(11px, 1.8vmin, 14px);
       font-weight: 600;
       cursor: pointer;
-      background: rgba(255,255,255,.1);
+      background: rgba(255, 255, 255, .1);
       color: #aaa;
       backdrop-filter: blur(6px);
       transition: background .2s, color .2s;
       white-space: nowrap;
     }
-    .toggle-btn:hover { background: rgba(255,255,255,.18); color: #ddd; }
-    .toggle-btn.active { background: rgba(100,200,120,.25); color: #6bffa1; }
-    .toggle-btn .icon { font-size: 1.2em; }
+
+    .toggle-btn:hover {
+      background: rgba(255, 255, 255, .18);
+      color: #ddd;
+    }
+
+    .toggle-btn.active {
+      background: rgba(100, 200, 120, .25);
+      color: #6bffa1;
+    }
+
+    .toggle-btn .icon {
+      font-size: 1.2em;
+    }
 
     /* On narrow screens stack below board */
     @media (max-width: 700px) {
@@ -229,520 +333,548 @@
     }
   </style>
 </head>
+
 <body>
 
-<div id="app">
-  <div id="status">White to move</div>
-  <div id="board-wrap">
-    <div id="board"></div>
+  <div id="app">
+    <div id="status">White to move</div>
+    <div id="board-wrap">
+      <div id="board"></div>
+    </div>
+    <div id="controls">
+      <button class="btn" onclick="resetGame()">New Game</button>
+      <button class="btn" onclick="undoMove()">Undo</button>
+    </div>
   </div>
-  <div id="controls">
-    <button class="btn" onclick="resetGame()">New Game</button>
-    <button class="btn" onclick="undoMove()">Undo</button>
+
+  <!-- Side toggle panel -->
+  <div id="side-panel">
+    <button class="toggle-btn active" id="flip-toggle" onclick="toggleFlip()">
+      <span class="icon">🔄</span> Flip Pieces
+    </button>
   </div>
-</div>
 
-<!-- Side toggle panel -->
-<div id="side-panel">
-  <button class="toggle-btn active" id="flip-toggle" onclick="toggleFlip()">
-    <span class="icon">🔄</span> Flip Pieces
-  </button>
-</div>
+  <!-- Ghost piece for dragging -->
+  <div id="ghost"></div>
 
-<!-- Ghost piece for dragging -->
-<div id="ghost"></div>
+  <!-- Promotion selector -->
+  <div id="promo-overlay">
+    <div id="promo-box"></div>
+  </div>
 
-<!-- Promotion selector -->
-<div id="promo-overlay">
-  <div id="promo-box"></div>
-</div>
+  <!-- chess.js v1 via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
-<!-- chess.js v1 via CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script>
+    /* ═══════════════════════════════════════════════════════════
+       CHESS  –  Local two-player with flip, drag-drop & sounds
+       ═══════════════════════════════════════════════════════════ */
 
-<script>
-/* ═══════════════════════════════════════════════════════════
-   CHESS  –  Local two-player with flip, drag-drop & sounds
-   ═══════════════════════════════════════════════════════════ */
+    // ── Constants ──────────────────────────────────────────────
+    const PIECE_UNICODE = {
+      wK: '♔', wQ: '♕', wR: '♖', wB: '♗', wN: '♘', wP: '♙',
+      bK: '♚', bQ: '♛', bR: '♜', bB: '♝', bN: '♞', bP: '♟'
+    };
+    const FILES = 'abcdefgh';
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-// ── Constants ──────────────────────────────────────────────
-const PIECE_UNICODE = {
-  wK:'♔', wQ:'♕', wR:'♖', wB:'♗', wN:'♘', wP:'♙',
-  bK:'♚', bQ:'♛', bR:'♜', bB:'♝', bN:'♞', bP:'♟'
-};
-const FILES = 'abcdefgh';
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // ── State ──────────────────────────────────────────────────
+    let game = new Chess();
+    let selectedSquare = null;   // sq id like "e2"
+    let dragSrc = null;          // sq id being dragged from
+    let legalSquares = [];       // array of target sq ids
+    let lastMove = null;         // {from, to}
+    let pendingPromo = null;     // {from, to}
+    let flipEnabled = true;     // toggle piece flipping
 
-// ── State ──────────────────────────────────────────────────
-let game = new Chess();
-let selectedSquare = null;   // sq id like "e2"
-let dragSrc = null;          // sq id being dragged from
-let legalSquares = [];       // array of target sq ids
-let lastMove = null;         // {from, to}
-let pendingPromo = null;     // {from, to}
-let flipEnabled  = true;     // toggle piece flipping
-
-const boardEl  = document.getElementById('board');
-const wrapEl   = document.getElementById('board-wrap');
-const statusEl = document.getElementById('status');
-const ghostEl  = document.getElementById('ghost');
-const promoOverlay = document.getElementById('promo-overlay');
-const promoBox     = document.getElementById('promo-box');
-
-// ── Sound synthesis ────────────────────────────────────────
-function playSound(type) {
-  const now = audioCtx.currentTime;
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-
-  switch (type) {
-    case 'move': {
-      const o = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      o.type = 'sine'; o.frequency.value = 600;
-      g.gain.setValueAtTime(.12, now);
-      g.gain.exponentialRampToValueAtTime(.001, now + .08);
-      o.connect(g).connect(audioCtx.destination);
-      o.start(now); o.stop(now + .08);
-      // click noise
-      const buf = audioCtx.createBuffer(1, 1200, audioCtx.sampleRate);
-      const d = buf.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = (Math.random()*2-1) * Math.exp(-i/120);
-      const n = audioCtx.createBufferSource();
-      const gn = audioCtx.createGain();
-      n.buffer = buf;
-      gn.gain.setValueAtTime(.18, now);
-      gn.gain.exponentialRampToValueAtTime(.001, now + .06);
-      n.connect(gn).connect(audioCtx.destination);
-      n.start(now);
-      break;
+    // ── Persistence ────────────────────────────────────────────
+    function saveState() {
+      localStorage.setItem('chess_state', JSON.stringify({
+        fen: game.fen(),
+        lastMove,
+        flipEnabled,
+        history: game.history({ verbose: true })
+      }));
     }
-    case 'capture': {
-      const buf = audioCtx.createBuffer(1, 3000, audioCtx.sampleRate);
-      const d = buf.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = (Math.random()*2-1) * Math.exp(-i/400);
-      const n = audioCtx.createBufferSource();
-      const g = audioCtx.createGain();
-      n.buffer = buf;
-      g.gain.setValueAtTime(.35, audioCtx.currentTime);
-      g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .15);
-      n.connect(g).connect(audioCtx.destination);
-      n.start();
-      break;
-    }
-    case 'check': {
-      [800, 1000].forEach((f, i) => {
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.type = 'square'; o.frequency.value = f;
-        g.gain.setValueAtTime(.08, now + i*.07);
-        g.gain.exponentialRampToValueAtTime(.001, now + i*.07 + .1);
-        o.connect(g).connect(audioCtx.destination);
-        o.start(now + i*.07); o.stop(now + i*.07 + .1);
-      });
-      break;
-    }
-    case 'castle': {
-      [500, 650].forEach((f, i) => {
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.type = 'sine'; o.frequency.value = f;
-        g.gain.setValueAtTime(.1, now + i*.06);
-        g.gain.exponentialRampToValueAtTime(.001, now + i*.06 + .08);
-        o.connect(g).connect(audioCtx.destination);
-        o.start(now + i*.06); o.stop(now + i*.06 + .08);
-      });
-      break;
-    }
-    case 'promote': {
-      [600, 800, 1100].forEach((f, i) => {
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.type = 'triangle'; o.frequency.value = f;
-        g.gain.setValueAtTime(.1, now + i*.08);
-        g.gain.exponentialRampToValueAtTime(.001, now + i*.08 + .12);
-        o.connect(g).connect(audioCtx.destination);
-        o.start(now + i*.08); o.stop(now + i*.08 + .12);
-      });
-      break;
-    }
-    case 'gameover': {
-      [523, 659, 784, 1047].forEach((f, i) => {
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.type = 'sine'; o.frequency.value = f;
-        g.gain.setValueAtTime(.1, now + i*.15);
-        g.gain.exponentialRampToValueAtTime(.001, now + i*.15 + .4);
-        o.connect(g).connect(audioCtx.destination);
-        o.start(now + i*.15); o.stop(now + i*.15 + .4);
-      });
-      break;
-    }
-    case 'illegal': {
-      const o = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      o.type = 'sawtooth'; o.frequency.value = 150;
-      g.gain.setValueAtTime(.08, now);
-      g.gain.exponentialRampToValueAtTime(.001, now + .12);
-      o.connect(g).connect(audioCtx.destination);
-      o.start(now); o.stop(now + .12);
-      break;
-    }
-  }
-}
 
-// ── Board rendering ────────────────────────────────────────
-function buildBoard() {
-  boardEl.innerHTML = '';
-  const brd = game.board();          // 8×8 array from chess.js
-  for (let r = 0; r < 8; r++) {
-    for (let c = 0; c < 8; c++) {
-      const sq = FILES[c] + (8 - r);  // e.g. "a8"
-      const isLight = (r + c) % 2 === 0;
-      const div = document.createElement('div');
-      div.className = 'square ' + (isLight ? 'light' : 'dark');
-      div.dataset.sq = sq;
-
-      // coordinate labels
-      if (r === 7) {
-        const f = document.createElement('span');
-        f.className = 'coord-file';
-        f.textContent = FILES[c];
-        div.appendChild(f);
-      }
-      if (c === 0) {
-        const rk = document.createElement('span');
-        rk.className = 'coord-rank';
-        rk.textContent = 8 - r;
-        div.appendChild(rk);
-      }
-
-      // piece
-      const p = brd[r][c];
-      if (p) {
-        const span = document.createElement('span');
-        span.className = 'piece';
-        span.textContent = PIECE_UNICODE[p.color + p.type.toUpperCase()];
-        span.dataset.sq = sq;
-        div.appendChild(span);
-      }
-
-      boardEl.appendChild(div);
+    function loadState() {
+      try {
+        const s = JSON.parse(localStorage.getItem('chess_state'));
+        if (!s) return false;
+        game = new Chess(s.fen);
+        lastMove = s.lastMove || null;
+        flipEnabled = s.flipEnabled ?? true;
+        document.getElementById('flip-toggle').classList.toggle('active', flipEnabled);
+        return true;
+      } catch (e) { return false; }
     }
-  }
-  applyHighlights();
-}
 
-function applyHighlights() {
-  document.querySelectorAll('.square').forEach(s => {
-    s.classList.remove('selected', 'legal-target', 'legal-capture', 'last-from', 'last-to', 'king-check');
-  });
-  // last move
-  if (lastMove) {
-    sqEl(lastMove.from)?.classList.add('last-from');
-    sqEl(lastMove.to)?.classList.add('last-to');
-  }
-  // selection & legal targets
-  if (selectedSquare) {
-    sqEl(selectedSquare)?.classList.add('selected');
-    const moves = game.moves({ square: selectedSquare, verbose: true });
-    moves.forEach(m => {
-      const el = sqEl(m.to);
-      if (!el) return;
-      if (m.captured) el.classList.add('legal-capture');
-      else            el.classList.add('legal-target');
-    });
-    legalSquares = moves.map(m => m.to);
-  } else {
-    legalSquares = [];
-  }
-  // king in check
-  if (game.in_check()) {
-    const turn = game.turn();
-    const brd = game.board();
-    for (let r = 0; r < 8; r++)
-      for (let c = 0; c < 8; c++) {
-        const p = brd[r][c];
-        if (p && p.type === 'k' && p.color === turn) {
-          const sq = FILES[c] + (8 - r);
-          sqEl(sq)?.classList.add('king-check');
+    const boardEl = document.getElementById('board');
+    const wrapEl = document.getElementById('board-wrap');
+    const statusEl = document.getElementById('status');
+    const ghostEl = document.getElementById('ghost');
+    const promoOverlay = document.getElementById('promo-overlay');
+    const promoBox = document.getElementById('promo-box');
+
+    // ── Sound synthesis ────────────────────────────────────────
+    function playSound(type) {
+      const now = audioCtx.currentTime;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      switch (type) {
+        case 'move': {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'sine'; o.frequency.value = 600;
+          g.gain.setValueAtTime(.12, now);
+          g.gain.exponentialRampToValueAtTime(.001, now + .08);
+          o.connect(g).connect(audioCtx.destination);
+          o.start(now); o.stop(now + .08);
+          // click noise
+          const buf = audioCtx.createBuffer(1, 1200, audioCtx.sampleRate);
+          const d = buf.getChannelData(0);
+          for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / 120);
+          const n = audioCtx.createBufferSource();
+          const gn = audioCtx.createGain();
+          n.buffer = buf;
+          gn.gain.setValueAtTime(.18, now);
+          gn.gain.exponentialRampToValueAtTime(.001, now + .06);
+          n.connect(gn).connect(audioCtx.destination);
+          n.start(now);
+          break;
+        }
+        case 'capture': {
+          const buf = audioCtx.createBuffer(1, 3000, audioCtx.sampleRate);
+          const d = buf.getChannelData(0);
+          for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / 400);
+          const n = audioCtx.createBufferSource();
+          const g = audioCtx.createGain();
+          n.buffer = buf;
+          g.gain.setValueAtTime(.35, audioCtx.currentTime);
+          g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .15);
+          n.connect(g).connect(audioCtx.destination);
+          n.start();
+          break;
+        }
+        case 'check': {
+          [800, 1000].forEach((f, i) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'square'; o.frequency.value = f;
+            g.gain.setValueAtTime(.08, now + i * .07);
+            g.gain.exponentialRampToValueAtTime(.001, now + i * .07 + .1);
+            o.connect(g).connect(audioCtx.destination);
+            o.start(now + i * .07); o.stop(now + i * .07 + .1);
+          });
+          break;
+        }
+        case 'castle': {
+          [500, 650].forEach((f, i) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'sine'; o.frequency.value = f;
+            g.gain.setValueAtTime(.1, now + i * .06);
+            g.gain.exponentialRampToValueAtTime(.001, now + i * .06 + .08);
+            o.connect(g).connect(audioCtx.destination);
+            o.start(now + i * .06); o.stop(now + i * .06 + .08);
+          });
+          break;
+        }
+        case 'promote': {
+          [600, 800, 1100].forEach((f, i) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'triangle'; o.frequency.value = f;
+            g.gain.setValueAtTime(.1, now + i * .08);
+            g.gain.exponentialRampToValueAtTime(.001, now + i * .08 + .12);
+            o.connect(g).connect(audioCtx.destination);
+            o.start(now + i * .08); o.stop(now + i * .08 + .12);
+          });
+          break;
+        }
+        case 'gameover': {
+          [523, 659, 784, 1047].forEach((f, i) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'sine'; o.frequency.value = f;
+            g.gain.setValueAtTime(.1, now + i * .15);
+            g.gain.exponentialRampToValueAtTime(.001, now + i * .15 + .4);
+            o.connect(g).connect(audioCtx.destination);
+            o.start(now + i * .15); o.stop(now + i * .15 + .4);
+          });
+          break;
+        }
+        case 'illegal': {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'sawtooth'; o.frequency.value = 150;
+          g.gain.setValueAtTime(.08, now);
+          g.gain.exponentialRampToValueAtTime(.001, now + .12);
+          o.connect(g).connect(audioCtx.destination);
+          o.start(now); o.stop(now + .12);
+          break;
         }
       }
-  }
-}
-
-function sqEl(sq) { return boardEl.querySelector(`[data-sq="${sq}"]`); }
-
-// ── Status text ────────────────────────────────────────────
-function updateStatus() {
-  statusEl.classList.remove('check', 'end');
-  if (game.game_over()) {
-    statusEl.classList.add('end');
-    if (game.in_checkmate()) {
-      const winner = game.turn() === 'w' ? 'Black' : 'White';
-      statusEl.textContent = `Checkmate! ${winner} wins 🎉`;
-    } else if (game.in_stalemate()) {
-      statusEl.textContent = 'Stalemate — Draw';
-    } else if (game.in_threefold_repetition()) {
-      statusEl.textContent = 'Draw — Threefold repetition';
-    } else if (game.insufficient_material()) {
-      statusEl.textContent = 'Draw — Insufficient material';
-    } else if (game.in_draw()) {
-      statusEl.textContent = 'Draw';
     }
-  } else {
-    const turn = game.turn() === 'w' ? 'White' : 'Black';
-    statusEl.textContent = turn + ' to move';
-    if (game.in_check()) {
-      statusEl.textContent += ' (Check!)';
-      statusEl.classList.add('check');
-    }
-  }
-}
 
-// ── Flip board towards current player ──────────────────────
-function updateFlip() {
-  if (flipEnabled && game.turn() === 'b') {
-    wrapEl.classList.add('flipped');
-  } else {
-    wrapEl.classList.remove('flipped');
-  }
-}
+    // ── Board rendering ────────────────────────────────────────
+    function buildBoard() {
+      boardEl.innerHTML = '';
+      const brd = game.board();          // 8×8 array from chess.js
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const sq = FILES[c] + (8 - r);  // e.g. "a8"
+          const isLight = (r + c) % 2 === 0;
+          const div = document.createElement('div');
+          div.className = 'square ' + (isLight ? 'light' : 'dark');
+          div.dataset.sq = sq;
 
-function toggleFlip() {
-  flipEnabled = !flipEnabled;
-  document.getElementById('flip-toggle').classList.toggle('active', flipEnabled);
-  updateFlip();
-}
+          // coordinate labels
+          if (r === 7) {
+            const f = document.createElement('span');
+            f.className = 'coord-file';
+            f.textContent = FILES[c];
+            div.appendChild(f);
+          }
+          if (c === 0) {
+            const rk = document.createElement('span');
+            rk.className = 'coord-rank';
+            rk.textContent = 8 - r;
+            div.appendChild(rk);
+          }
 
-// ── Try to make a move ─────────────────────────────────────
-function tryMove(from, to) {
-  // check if promotion needed
-  const piece = game.get(from);
-  if (piece && piece.type === 'p') {
-    const destRank = parseInt(to[1]);
-    if ((piece.color === 'w' && destRank === 8) || (piece.color === 'b' && destRank === 1)) {
-      // verify the promotion move is legal
-      const legal = game.moves({ square: from, verbose: true }).some(m => m.to === to);
-      if (!legal) { playSound('illegal'); return false; }
-      pendingPromo = { from, to };
-      showPromotion(piece.color);
-      return 'promo';
-    }
-  }
-  const move = game.move({ from, to, promotion: 'q' });
-  if (!move) { playSound('illegal'); return false; }
-  afterMove(move);
-  return true;
-}
+          // piece
+          const p = brd[r][c];
+          if (p) {
+            const span = document.createElement('span');
+            span.className = 'piece';
+            span.textContent = PIECE_UNICODE[p.color + p.type.toUpperCase()];
+            span.dataset.sq = sq;
+            div.appendChild(span);
+          }
 
-function afterMove(move) {
-  lastMove = { from: move.from, to: move.to };
-  // sound
-  if (game.in_checkmate() || game.game_over()) playSound('gameover');
-  else if (game.in_check())   playSound('check');
-  else if (move.flags.includes('k') || move.flags.includes('q')) playSound('castle');
-  else if (move.flags.includes('p'))   playSound('promote');
-  else if (move.captured)              playSound('capture');
-  else                                 playSound('move');
-
-  selectedSquare = null;
-  buildBoard();
-  updateStatus();
-  updateFlip();
-}
-
-// ── Promotion UI ───────────────────────────────────────────
-function showPromotion(color) {
-  promoBox.innerHTML = '';
-  ['q','r','b','n'].forEach(t => {
-    const sp = document.createElement('span');
-    sp.className = 'promo-piece';
-    sp.textContent = PIECE_UNICODE[color + t.toUpperCase()];
-    sp.onclick = () => doPromotion(t);
-    promoBox.appendChild(sp);
-  });
-  promoOverlay.classList.add('active');
-}
-
-function doPromotion(piece) {
-  promoOverlay.classList.remove('active');
-  if (!pendingPromo) return;
-  const move = game.move({ from: pendingPromo.from, to: pendingPromo.to, promotion: piece });
-  pendingPromo = null;
-  if (move) afterMove(move);
-}
-
-// ── Click handling ─────────────────────────────────────────
-boardEl.addEventListener('click', e => {
-  if (game.game_over()) return;
-  const sqDiv = e.target.closest('.square');
-  if (!sqDiv) return;
-  const sq = sqDiv.dataset.sq;
-  handleSquareInteraction(sq);
-});
-
-function handleSquareInteraction(sq) {
-  if (game.game_over()) return;
-  if (selectedSquare) {
-    if (sq === selectedSquare) {
-      selectedSquare = null;
+          boardEl.appendChild(div);
+        }
+      }
       applyHighlights();
-      return;
     }
-    if (legalSquares.includes(sq)) {
-      tryMove(selectedSquare, sq);
-      return;
+
+    function applyHighlights() {
+      document.querySelectorAll('.square').forEach(s => {
+        s.classList.remove('selected', 'legal-target', 'legal-capture', 'last-from', 'last-to', 'king-check');
+      });
+      // last move
+      if (lastMove) {
+        sqEl(lastMove.from)?.classList.add('last-from');
+        sqEl(lastMove.to)?.classList.add('last-to');
+      }
+      // selection & legal targets
+      if (selectedSquare) {
+        sqEl(selectedSquare)?.classList.add('selected');
+        const moves = game.moves({ square: selectedSquare, verbose: true });
+        moves.forEach(m => {
+          const el = sqEl(m.to);
+          if (!el) return;
+          if (m.captured) el.classList.add('legal-capture');
+          else el.classList.add('legal-target');
+        });
+        legalSquares = moves.map(m => m.to);
+      } else {
+        legalSquares = [];
+      }
+      // king in check
+      if (game.in_check()) {
+        const turn = game.turn();
+        const brd = game.board();
+        for (let r = 0; r < 8; r++)
+          for (let c = 0; c < 8; c++) {
+            const p = brd[r][c];
+            if (p && p.type === 'k' && p.color === turn) {
+              const sq = FILES[c] + (8 - r);
+              sqEl(sq)?.classList.add('king-check');
+            }
+          }
+      }
     }
-    // clicked another own piece? re-select
-    const p = game.get(sq);
-    if (p && p.color === game.turn()) {
+
+    function sqEl(sq) { return boardEl.querySelector(`[data-sq="${sq}"]`); }
+
+    // ── Status text ────────────────────────────────────────────
+    function updateStatus() {
+      statusEl.classList.remove('check', 'end');
+      if (game.game_over()) {
+        statusEl.classList.add('end');
+        if (game.in_checkmate()) {
+          const winner = game.turn() === 'w' ? 'Black' : 'White';
+          statusEl.textContent = `Checkmate! ${winner} wins 🎉`;
+        } else if (game.in_stalemate()) {
+          statusEl.textContent = 'Stalemate — Draw';
+        } else if (game.in_threefold_repetition()) {
+          statusEl.textContent = 'Draw — Threefold repetition';
+        } else if (game.insufficient_material()) {
+          statusEl.textContent = 'Draw — Insufficient material';
+        } else if (game.in_draw()) {
+          statusEl.textContent = 'Draw';
+        }
+      } else {
+        const turn = game.turn() === 'w' ? 'White' : 'Black';
+        statusEl.textContent = turn + ' to move';
+        if (game.in_check()) {
+          statusEl.textContent += ' (Check!)';
+          statusEl.classList.add('check');
+        }
+      }
+    }
+
+    // ── Flip board towards current player ──────────────────────
+    function updateFlip() {
+      if (flipEnabled && game.turn() === 'b') {
+        wrapEl.classList.add('flipped');
+      } else {
+        wrapEl.classList.remove('flipped');
+      }
+    }
+
+    function toggleFlip() {
+      flipEnabled = !flipEnabled;
+      document.getElementById('flip-toggle').classList.toggle('active', flipEnabled);
+      updateFlip();
+    }
+
+    // ── Try to make a move ─────────────────────────────────────
+    function tryMove(from, to) {
+      // check if promotion needed
+      const piece = game.get(from);
+      if (piece && piece.type === 'p') {
+        const destRank = parseInt(to[1]);
+        if ((piece.color === 'w' && destRank === 8) || (piece.color === 'b' && destRank === 1)) {
+          // verify the promotion move is legal
+          const legal = game.moves({ square: from, verbose: true }).some(m => m.to === to);
+          if (!legal) { playSound('illegal'); return false; }
+          pendingPromo = { from, to };
+          showPromotion(piece.color);
+          return 'promo';
+        }
+      }
+      const move = game.move({ from, to, promotion: 'q' });
+      if (!move) { playSound('illegal'); return false; }
+      afterMove(move);
+      return true;
+    }
+
+    function afterMove(move) {
+      lastMove = { from: move.from, to: move.to };
+      // sound
+      if (game.in_checkmate() || game.game_over()) playSound('gameover');
+      else if (game.in_check()) playSound('check');
+      else if (move.flags.includes('k') || move.flags.includes('q')) playSound('castle');
+      else if (move.flags.includes('p')) playSound('promote');
+      else if (move.captured) playSound('capture');
+      else playSound('move');
+
+      selectedSquare = null;
+      buildBoard();
+      updateStatus();
+      updateFlip();
+      saveState();
+
+    }
+
+    // ── Promotion UI ───────────────────────────────────────────
+    function showPromotion(color) {
+      promoBox.innerHTML = '';
+      ['q', 'r', 'b', 'n'].forEach(t => {
+        const sp = document.createElement('span');
+        sp.className = 'promo-piece';
+        sp.textContent = PIECE_UNICODE[color + t.toUpperCase()];
+        sp.onclick = () => doPromotion(t);
+        promoBox.appendChild(sp);
+      });
+      promoOverlay.classList.add('active');
+    }
+
+    function doPromotion(piece) {
+      promoOverlay.classList.remove('active');
+      if (!pendingPromo) return;
+      const move = game.move({ from: pendingPromo.from, to: pendingPromo.to, promotion: piece });
+      pendingPromo = null;
+      if (move) afterMove(move);
+    }
+
+    // ── Click handling ─────────────────────────────────────────
+    boardEl.addEventListener('click', e => {
+      if (game.game_over()) return;
+      const sqDiv = e.target.closest('.square');
+      if (!sqDiv) return;
+      const sq = sqDiv.dataset.sq;
+      handleSquareInteraction(sq);
+    });
+
+    function handleSquareInteraction(sq) {
+      if (game.game_over()) return;
+      if (selectedSquare) {
+        if (sq === selectedSquare) {
+          selectedSquare = null;
+          applyHighlights();
+          return;
+        }
+        if (legalSquares.includes(sq)) {
+          tryMove(selectedSquare, sq);
+          return;
+        }
+        // clicked another own piece? re-select
+        const p = game.get(sq);
+        if (p && p.color === game.turn()) {
+          selectedSquare = sq;
+          applyHighlights();
+          return;
+        }
+        // illegal target
+        selectedSquare = null;
+        applyHighlights();
+        playSound('illegal');
+        return;
+      }
+      // no selection yet
+      const p = game.get(sq);
+      if (p && p.color === game.turn()) {
+        selectedSquare = sq;
+        applyHighlights();
+      }
+    }
+
+    // ── Drag & Drop (mouse + touch) ────────────────────────────
+    let dragging = false;
+    let dragPieceEl = null;
+
+    function getSquareFromPoint(x, y) {
+      // temporarily hide ghost so elementFromPoint finds the square
+      ghostEl.style.display = 'none';
+      const el = document.elementFromPoint(x, y);
+      ghostEl.style.display = dragging ? 'block' : 'none';
+      if (!el) return null;
+      const sq = el.closest('.square');
+      return sq ? sq.dataset.sq : null;
+    }
+
+    function startDrag(sq, pieceEl, clientX, clientY) {
+      if (game.game_over()) return;
+      const p = game.get(sq);
+      if (!p || p.color !== game.turn()) return;
+      dragging = true;
+      dragSrc = sq;
+      dragPieceEl = pieceEl;
       selectedSquare = sq;
       applyHighlights();
-      return;
+      pieceEl.classList.add('dragging');
+      ghostEl.textContent = pieceEl.textContent;
+      ghostEl.style.display = 'block';
+      // If board is flipped, counter-rotate ghost
+      if (wrapEl.classList.contains('flipped')) {
+        ghostEl.style.transform = 'translate(-50%,-50%) rotate(180deg)';
+      } else {
+        ghostEl.style.transform = 'translate(-50%,-50%)';
+      }
+      moveGhost(clientX, clientY);
     }
-    // illegal target
-    selectedSquare = null;
-    applyHighlights();
-    playSound('illegal');
-    return;
-  }
-  // no selection yet
-  const p = game.get(sq);
-  if (p && p.color === game.turn()) {
-    selectedSquare = sq;
-    applyHighlights();
-  }
-}
 
-// ── Drag & Drop (mouse + touch) ────────────────────────────
-let dragging = false;
-let dragPieceEl = null;
+    function moveGhost(x, y) {
+      ghostEl.style.left = x + 'px';
+      ghostEl.style.top = y + 'px';
+    }
 
-function getSquareFromPoint(x, y) {
-  // temporarily hide ghost so elementFromPoint finds the square
-  ghostEl.style.display = 'none';
-  const el = document.elementFromPoint(x, y);
-  ghostEl.style.display = dragging ? 'block' : 'none';
-  if (!el) return null;
-  const sq = el.closest('.square');
-  return sq ? sq.dataset.sq : null;
-}
+    function endDrag(clientX, clientY) {
+      if (!dragging) return;
+      dragging = false;
+      ghostEl.style.display = 'none';
+      if (dragPieceEl) dragPieceEl.classList.remove('dragging');
 
-function startDrag(sq, pieceEl, clientX, clientY) {
-  if (game.game_over()) return;
-  const p = game.get(sq);
-  if (!p || p.color !== game.turn()) return;
-  dragging = true;
-  dragSrc = sq;
-  dragPieceEl = pieceEl;
-  selectedSquare = sq;
-  applyHighlights();
-  pieceEl.classList.add('dragging');
-  ghostEl.textContent = pieceEl.textContent;
-  ghostEl.style.display = 'block';
-  // If board is flipped, counter-rotate ghost
-  if (wrapEl.classList.contains('flipped')) {
-    ghostEl.style.transform = 'translate(-50%,-50%) rotate(180deg)';
-  } else {
-    ghostEl.style.transform = 'translate(-50%,-50%)';
-  }
-  moveGhost(clientX, clientY);
-}
+      const target = getSquareFromPoint(clientX, clientY);
+      if (target && target !== dragSrc) {
+        if (legalSquares.includes(target)) {
+          tryMove(dragSrc, target);
+        } else {
+          selectedSquare = null;
+          applyHighlights();
+          playSound('illegal');
+        }
+      } else {
+        // dropped on same square or outside — keep selection
+      }
+      dragSrc = null;
+      dragPieceEl = null;
+    }
 
-function moveGhost(x, y) {
-  ghostEl.style.left = x + 'px';
-  ghostEl.style.top  = y + 'px';
-}
+    // Mouse events
+    boardEl.addEventListener('mousedown', e => {
+      const piece = e.target.closest('.piece');
+      if (!piece) return;
+      const sq = piece.dataset.sq;
+      e.preventDefault();
+      startDrag(sq, piece, e.clientX, e.clientY);
+    });
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      e.preventDefault();
+      moveGhost(e.clientX, e.clientY);
+    });
+    document.addEventListener('mouseup', e => {
+      if (!dragging) return;
+      endDrag(e.clientX, e.clientY);
+    });
 
-function endDrag(clientX, clientY) {
-  if (!dragging) return;
-  dragging = false;
-  ghostEl.style.display = 'none';
-  if (dragPieceEl) dragPieceEl.classList.remove('dragging');
+    // Touch events (tablet!)
+    boardEl.addEventListener('touchstart', e => {
+      const t = e.touches[0];
+      const piece = document.elementFromPoint(t.clientX, t.clientY)?.closest('.piece');
+      if (!piece) return;
+      const sq = piece.dataset.sq;
+      e.preventDefault();
+      startDrag(sq, piece, t.clientX, t.clientY);
+    }, { passive: false });
+    document.addEventListener('touchmove', e => {
+      if (!dragging) return;
+      e.preventDefault();
+      const t = e.touches[0];
+      moveGhost(t.clientX, t.clientY);
+    }, { passive: false });
+    document.addEventListener('touchend', e => {
+      if (!dragging) return;
+      const t = e.changedTouches[0];
+      endDrag(t.clientX, t.clientY);
+    });
 
-  const target = getSquareFromPoint(clientX, clientY);
-  if (target && target !== dragSrc) {
-    if (legalSquares.includes(target)) {
-      tryMove(dragSrc, target);
-    } else {
+    // ── Controls ───────────────────────────────────────────────
+    function resetGame() {
+      localStorage.removeItem('chess_state');
+      game = new Chess();
       selectedSquare = null;
-      applyHighlights();
-      playSound('illegal');
+      lastMove = null;
+      pendingPromo = null;
+      buildBoard();
+      updateStatus();
+      updateFlip();
+      playSound('move');
     }
-  } else {
-    // dropped on same square or outside — keep selection
-  }
-  dragSrc = null;
-  dragPieceEl = null;
-}
 
-// Mouse events
-boardEl.addEventListener('mousedown', e => {
-  const piece = e.target.closest('.piece');
-  if (!piece) return;
-  const sq = piece.dataset.sq;
-  e.preventDefault();
-  startDrag(sq, piece, e.clientX, e.clientY);
-});
-document.addEventListener('mousemove', e => {
-  if (!dragging) return;
-  e.preventDefault();
-  moveGhost(e.clientX, e.clientY);
-});
-document.addEventListener('mouseup', e => {
-  if (!dragging) return;
-  endDrag(e.clientX, e.clientY);
-});
+    function undoMove() {
+      if (game.game_over() && game.history().length === 0) return;
+      game.undo();
+      selectedSquare = null;
+      const hist = game.history({ verbose: true });
+      lastMove = hist.length ? { from: hist[hist.length - 1].from, to: hist[hist.length - 1].to } : null;
+      buildBoard();
+      updateStatus();
+      updateFlip();
+      playSound('move');
+    }
 
-// Touch events (tablet!)
-boardEl.addEventListener('touchstart', e => {
-  const t = e.touches[0];
-  const piece = document.elementFromPoint(t.clientX, t.clientY)?.closest('.piece');
-  if (!piece) return;
-  const sq = piece.dataset.sq;
-  e.preventDefault();
-  startDrag(sq, piece, t.clientX, t.clientY);
-}, { passive: false });
-document.addEventListener('touchmove', e => {
-  if (!dragging) return;
-  e.preventDefault();
-  const t = e.touches[0];
-  moveGhost(t.clientX, t.clientY);
-}, { passive: false });
-document.addEventListener('touchend', e => {
-  if (!dragging) return;
-  const t = e.changedTouches[0];
-  endDrag(t.clientX, t.clientY);
-});
-
-// ── Controls ───────────────────────────────────────────────
-function resetGame() {
-  game = new Chess();
-  selectedSquare = null;
-  lastMove = null;
-  pendingPromo = null;
-  buildBoard();
-  updateStatus();
-  updateFlip();
-  playSound('move');
-}
-
-function undoMove() {
-  if (game.game_over() && game.history().length === 0) return;
-  game.undo();
-  selectedSquare = null;
-  const hist = game.history({ verbose: true });
-  lastMove = hist.length ? { from: hist[hist.length-1].from, to: hist[hist.length-1].to } : null;
-  buildBoard();
-  updateStatus();
-  updateFlip();
-  playSound('move');
-}
-
-// ── Init ───────────────────────────────────────────────────
-buildBoard();
-updateStatus();
-updateFlip();
-</script>
+    // ── Init ───────────────────────────────────────────────────
+    loadState();
+    buildBoard();
+    updateStatus();
+    updateFlip();
+  </script>
 </body>
+
 </html>
