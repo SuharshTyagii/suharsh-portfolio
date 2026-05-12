@@ -200,14 +200,19 @@
       transition: transform 0.5s cubic-bezier(.4, 0, .2, 1);
     }
 
-    #board-wrap.flipped .piece,
-    #board-wrap.flipped .coord-file,
-    #board-wrap.flipped .coord-rank {
+    /* White pieces always face viewer - no rotation */
+    #board-wrap .piece[data-color="w"] {
+      transform: none;
+    }
+
+    /* Black pieces flip with board */
+    #board-wrap.flipped .piece[data-color="b"] {
       transform: rotate(180deg);
     }
 
-    /* Always rotate black pieces if flip is disabled */
-    #board-wrap:not(.flipped) .piece[data-color="b"] {
+    /* Coordinates flip with board */
+    #board-wrap.flipped .coord-file,
+    #board-wrap.flipped .coord-rank {
       transform: rotate(180deg);
     }
 
@@ -315,6 +320,15 @@
       z-index: 500;
     }
 
+    /* ─── Confetti Effect ────────────────────────────────── */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3000;
+      display: none;
+    }
+
     .toggle-btn {
       display: flex;
       align-items: center;
@@ -379,6 +393,9 @@
     </button>
   </div>
 
+  <!-- Confetti canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
   <!-- Ghost piece for dragging -->
   <div id="ghost"></div>
 
@@ -411,6 +428,11 @@
     let lastMove = null;         // {from, to}
     let pendingPromo = null;     // {from, to}
     let flipEnabled = true;     // toggle piece flipping
+    let confettiActive = false;
+    let confettiCtx = null;
+    let confettiCanvas = null;
+    let confettiParticles = [];
+    let confettiAnimationId = null;
 
     // ── Persistence ────────────────────────────────────────────
     function saveState() {
@@ -527,6 +549,7 @@
             o.connect(g).connect(audioCtx.destination);
             o.start(now + i * .15); o.stop(now + i * .15 + .4);
           });
+          startConfetti();
           break;
         }
         case 'illegal': {
@@ -800,8 +823,8 @@
       pieceEl.classList.add('dragging');
       ghostEl.textContent = pieceEl.textContent;
       ghostEl.style.display = 'block';
-      // If board is flipped, counter-rotate ghost
-      if (wrapEl.classList.contains('flipped')) {
+      // White pieces always face viewer, black pieces flip with board
+      if (dragPieceEl.dataset.color === 'b' && wrapEl.classList.contains('flipped')) {
         ghostEl.style.transform = 'translate(-50%,-50%) rotate(180deg)';
       } else {
         ghostEl.style.transform = 'translate(-50%,-50%)';
@@ -888,6 +911,7 @@
       selectedSquare = null;
       lastMove = null;
       pendingPromo = null;
+      stopConfetti();
       buildBoard();
       updateStatus();
       updateFlip();
@@ -908,6 +932,93 @@
       updateURL();
     }
 
+    // ── Confetti Effect ────────────────────────────────────────
+    function initConfetti() {
+      confettiCanvas = document.getElementById('confetti-canvas');
+      confettiCtx = confettiCanvas.getContext('2d');
+      resizeConfetti();
+      window.addEventListener('resize', resizeConfetti);
+    }
+
+    function resizeConfetti() {
+      if (!confettiCanvas) return;
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+
+    function startConfetti() {
+      if (confettiActive) return;
+      confettiActive = true;
+      confettiCanvas.style.display = 'block';
+      confettiParticles = [];
+      
+      const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#00ffff', '#ff00ff', '#ffa500', '#ffffff'];
+      const particleCount = 300;
+      
+      for (let i = 0; i < particleCount; i++) {
+        confettiParticles.push({
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2,
+          vx: (Math.random() - 0.5) * 20,
+          vy: (Math.random() - 0.5) * 20 - 5,
+          size: Math.random() * 10 + 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 10,
+          gravity: 0.5,
+          drag: 0.96
+        });
+      }
+      
+      animateConfetti();
+    }
+
+    function animateConfetti() {
+      if (!confettiActive) return;
+      
+      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      
+      let activeParticles = false;
+      
+      confettiParticles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.vx *= p.drag;
+        p.vy *= p.drag;
+        p.rotation += p.rotationSpeed;
+        
+        if (p.y < confettiCanvas.height) {
+          activeParticles = true;
+          
+          confettiCtx.save();
+          confettiCtx.translate(p.x, p.y);
+          confettiCtx.rotate((p.rotation * Math.PI) / 180);
+          confettiCtx.fillStyle = p.color;
+          confettiCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          confettiCtx.restore();
+        }
+      });
+      
+      if (activeParticles) {
+        confettiAnimationId = requestAnimationFrame(animateConfetti);
+      } else {
+        stopConfetti();
+      }
+    }
+
+    function stopConfetti() {
+      confettiActive = false;
+      if (confettiAnimationId) {
+        cancelAnimationFrame(confettiAnimationId);
+        confettiAnimationId = null;
+      }
+      if (confettiCanvas) {
+        confettiCanvas.style.display = 'none';
+        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      }
+    }
+
     // ── Init ───────────────────────────────────────────────────
     function initGame() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -917,6 +1028,7 @@
       } else {
         loadState();
       }
+      initConfetti();
       buildBoard();
       updateStatus();
       updateFlip();
